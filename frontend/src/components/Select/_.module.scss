@@ -1,0 +1,96 @@
+.Container {
+  position: relative;
+
+  .Select {
+    display: block;
+    height: 56px;
+    padding-top: 6px;
+    font-weight: 600;
+
+    :global(.MuiSelect-select.MuiInputBase-input) {
+      width: 100%;
+    }
+
+  }
+
+  .Icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-10px, 30px);
+  }
+}
+
+.Container .Label {
+  font-weight: $font-regular;
+  font-size: 14px;
+  line-height: 150%;
+  color: $neutral-500;
+  position: absolute;
+  z-index: 1;
+  position: absolute;
+  left: 24px;
+  transition: 0.15s;
+  pointer-events: none;
+  transform: translate(0, 16px);
+  top: 0;
+  right: 0;
+
+  .Asteric {
+    color: $danger-500;
+  }
+}
+
+.Container .Select:global(.Mui-focused)+.Label,
+.Container .Select.Filled+.Label {
+  font-size: 12px;
+  transform: translate(-8px, 4px);
+}
+
+.Container .Select:global(.MuiInputBase-readOnly) {
+  pointer-events: none;
+
+  :global(.MuiSelect-select) {
+    border-color: $neutral-200;
+  }
+
+  .Icon svg {
+    color: $neutral-200;
+  }
+}
+
+.Container .HelperText {
+  font-weight: $font-medium;
+  font-size: 12px;
+  line-height: 130%;
+  letter-spacing: 0.03em;
+  margin-top: 8px;
+  color: $neutral-500;
+}
+
+.Container.Error .Label {
+  color: $danger-500;
+}
+
+.Container.Error .Select :global(.MuiSelect-select) {
+  border: 1px solid $danger-500;
+}
+
+.Container.Error .HelperText {
+  color: $danger-500;
+}
+
+.Container.Error svg {
+  color: $danger-500;
+}
+
+.Container.Disabled .Select :global(.MuiSelect-select) {
+  background: $neutral-100;
+  border: 1px solid $neutral-300;
+  color: $neutral-300;
+}
+
+.Container.Disabled .Label,
+.Container.Disabled .HelperText {
+  color: $neutral-300;
+}

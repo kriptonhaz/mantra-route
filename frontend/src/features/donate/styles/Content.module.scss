@@ -1,0 +1,88 @@
+.Container {
+  a {
+    color: $neutral-800;
+    &:hover {
+      text-decoration: underline;
+      -webkit-text-decoration-color: #ffd200;
+      text-decoration-color: #ffd200;
+      color: $neutral-900;
+    }
+  }
+
+  .Form {
+    border: 2px solid $neutral-300;
+    padding: 32px;
+    border-radius: 8px;
+
+    .BoxInput {
+      flex: 1;
+      border: 2px solid $neutral-300;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+      transition: 0.25s;
+      &:hover {
+        background-color: #ffd00018;
+      }
+      &:global(.active) {
+        border-color: #ffd200;
+        p {
+          color: #ffd200;
+        }
+      }
+
+      p {
+        font-weight: bold;
+        color: $neutral-600;
+      }
+    }
+
+    .BtnCategory {
+      background-color: #e4e4e7;
+      width: 200px;
+      box-shadow: none;
+      &:hover {
+        background-color: #d1d1d6;
+      }
+      &:global(.active) {
+        background-color: #ffd200;
+      }
+    }
+
+    .BoxFrequency {
+      padding: 24px;
+    }
+    .BoxAmount {
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      p {
+        font-size: 36px;
+      }
+      & :global(.MuiInputBase-root) {
+        font-size: 24px;
+      }
+
+      input {
+        padding-left: 4px;
+      }
+    }
+
+    & :global(.MuiTypography-root.MuiFormControlLabel-label) {
+      color: #70707b;
+    }
+
+    .BtnSubmit {
+      width: 240px;
+      text-transform: uppercase;
+      font-weight: bold;
+      background-color: #f64e60;
+      color: #fff;
+    }
+  }
+}

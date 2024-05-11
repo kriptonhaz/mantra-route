@@ -1,0 +1,77 @@
+.Container {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1000;
+
+  .ListMenu {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    font-weight: 300;
+
+    .MenuItem {
+      position: relative;
+      p {
+        font-size: 14px;
+      }
+      padding: 20px 0px;
+      padding-top: 24px;
+      &:hover {
+        &::after {
+          transition: 0.25s;
+          content: ' ';
+          height: 2px;
+          width: 100%;
+          background-color: #ffd200;
+          position: absolute;
+          bottom: 0;
+        }
+      }
+    }
+  }
+
+  .DropDownMenu {
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+    position: absolute;
+    transform: translateY(20px);
+    font-size: 14px;
+    transition: 0.25s;
+    padding: 16px;
+    background-color: #fff;
+    min-width: 280px;
+
+    .Title {
+      font-size: 12px !important;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    .Links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 14px;
+      color: $neutral-500;
+      transition: 0.15s;
+      :hover {
+        color: $neutral-700;
+      }
+    }
+    .Divider {
+      width: 100%;
+      margin: 16px 0px;
+      border-top: 1px solid $neutral-400;
+    }
+  }
+
+  .MenuItem:hover .DropDownMenu {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .DropDown {
+  }
+}

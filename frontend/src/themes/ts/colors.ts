@@ -1,0 +1,85 @@
+export type TColorVariant = 'neutral' | 'primary' | 'success' | 'error' | 'warning' | 'info';
+
+export const neutral = {
+  25: '#FCFCFC',
+  50: '#FAFAFA',
+  100: '#F4F4F5',
+  200: '#E4E4E7',
+  300: '#D1D1D6',
+  400: '#A0A0AB',
+  500: '#70707B',
+  600: '#51525C',
+  700: '#3F3F46',
+  800: '#26272B',
+  900: '#18181B',
+};
+
+export const primary = {
+  25: '#FFFEFA',
+  50: '#FFFDF2',
+  100: '#FFF9CC',
+  200: '#FFF299',
+  300: '#FFE966',
+  400: '#FFE03F',
+  500: '#FFD200',
+  600: '#DBB000',
+  700: '#B79000',
+  800: '#937100',
+  900: '#7A5B00',
+};
+
+export const success = {
+  25: '#FAFDF8',
+  50: '#F6FDF0',
+  100: '#F0FDE4',
+  200: '#DEFCCA',
+  300: '#C6F8AD',
+  400: '#ADF196',
+  500: '#89E874',
+  600: '#60C754',
+  700: '#3DA73A',
+  800: '#3DA73A',
+  900: '#166F21',
+};
+
+export const info = {
+  25: '#FAFEFF',
+  50: '#F2FCFF',
+  100: '#CCF2FF',
+  200: '#99DFFF',
+  300: '#66C7FF',
+  400: '#3FAFFF',
+  500: '#0088FF',
+  600: '#0069DB',
+  700: '#004EB7',
+  800: '#003793',
+  900: '#00277A',
+};
+
+export const warning = {
+  25: '#FFFEFA',
+  50: '#FFFDF2',
+  100: '#FFF9D0',
+  200: '#FFF2A1',
+  300: '#FFEA72',
+  400: '#FFE14E',
+  500: '#FFD314',
+  600: '#DBB00E',
+  700: '#B7900A',
+  800: '#937106',
+  900: '#937106',
+};
+
+export const danger = {
+  25: '#FFFBFA',
+  50: '#FFF6F2',
+  100: '#FFE2D7',
+  200: '#FFBEB0',
+  300: '#FF9488',
+  400: '#FF6B6B',
+  500: '#FF3A4B',
+  600: '#DB2A49',
+  700: '#B71D46',
+  800: '#931240',
+  900: '#7A0B3D',
+};

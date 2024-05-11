@@ -1,0 +1,31 @@
+.Container {
+  padding: 48px;
+  border: 1px solid $neutral-300;
+  margin: 40px auto;
+
+  .BoxQR {
+    width: 300px;
+    aspect-ratio: 1/1;
+    border: 1px solid $neutral-300;
+    border-radius: 10px;
+    margin: 24px auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .Button {
+    width: 240px;
+    &.BtnFinish {
+      height: 60px;
+      text-transform: uppercase;
+      font-weight: bold;
+      background-color: #f64e60;
+      color: #fff;
+    }
+    &.BtnPayment {
+      height: 48px;
+    }
+  }
+}

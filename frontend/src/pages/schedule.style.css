@@ -1,0 +1,38 @@
+.ffth-schedule.rbc-calendar {
+  font-family: 'Lexend', sans-serif;
+  font-size: 14px;
+}
+
+.rbc-event {
+  background-color: #ccf2ff;
+  border-left: 6px solid #004eb7;
+  color: #004eb7;
+  font-size: 10px;
+}
+
+.rbc-event.rbc-selected {
+  background-color: #ffd200;
+  color: #004eb7;
+}
+
+.rbc-toolbar .rbc-toolbar-label {
+  text-align: left;
+  padding-left: 2rem;
+}
+
+.rbc-toolbar > :first-child > :first-child {
+  /* today button */
+  display: none;
+}
+
+.rbc-btn-group > button:not(:first-child):not(:last-child) {
+  /* back button */
+  border-radius: 8px;
+  margin: 0 2px;
+}
+
+.rbc-btn-group > button:not(:first-child):last-child {
+  /* next button */
+  border-radius: 8px;
+  margin: 0 2px;
+}
