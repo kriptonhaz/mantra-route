@@ -28,7 +28,7 @@ export const LoginForm = () => {
         Welcome Back
       </Typography>
       <Typography component='h5' color='text.secondary' mb={8}>
-        Welcome back! Please enter your details
+        Please login to experience our magic!
       </Typography>
       <Stack direction='column' spacing={4}>
         <InputFloating
@@ -78,7 +78,7 @@ export const LoginForm = () => {
           Don't have an account?{' '}
           <NavLink to='/your-details'>
             <Typography variant='body2' sx={{color: info[500], display: 'inline-block', ml: 2}}>
-              Register as volunteer
+              Register here
             </Typography>
           </NavLink>
         </Typography>

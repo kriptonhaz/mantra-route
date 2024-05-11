@@ -1,7 +1,7 @@
 import {Box, Grid, Paper, Typography, CircularProgress} from '@mui/material';
 import {yupResolver} from '@hookform/resolvers/yup';
-import ffthBg from '../assets/img/ffth-bg.jpg';
-import logoFfth from '../assets/img/logo-ffth.png';
+import trafficBg from '@/assets/img/traffic-car.jpeg';
+import logoMantra from '@/assets/img/logo-mantra.jpeg';
 import {useForm, FormProvider, SubmitHandler} from 'react-hook-form';
 import {LoginInput} from '../interface/auth.interface';
 import {LoginForm} from '../components/Form/LoginForm';
@@ -35,7 +35,7 @@ export const LoginPage = () => {
           }}
         >
           <Box my={4}>
-            <img src={logoFfth} style={{height: 40}} />
+            <img src={logoMantra} style={{height: 80}} />
           </Box>
           <Box>
             <FormProvider {...methods}>
@@ -59,7 +59,7 @@ export const LoginPage = () => {
           </Box>
           <Box sx={{my: 4}}>
             <Typography variant='body2' color='text.secondary' fontWeight={'light'}>
-              2023 © Food from the Heart
+              2024 © Mantra Maker
             </Typography>
           </Box>
         </Box>
@@ -86,7 +86,7 @@ export const LoginPage = () => {
             height: '100vh',
             width: '100%',
             borderRadius: '80px 0 0 0;',
-            background: `linear-gradient(180deg, rgba(255, 210, 0, 0.4) 37.08%, rgba(0, 0, 0, 0.248) 100%), url(${ffthBg});`,
+            background: `linear-gradient(180deg, rgba(255, 210, 0, 0.4) 37.08%, rgba(0, 0, 0, 0.248) 100%), url(${trafficBg});`,
             display: 'flex',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -103,14 +103,14 @@ export const LoginPage = () => {
             variant='h5'
             sx={{fontSize: 24, color: '#FFD200', fontWeight: 700, my: 3}}
           >
-            Recognised among charities in Singapore working towards a social good
+            Bringing magic to generate route optimization
           </Typography>
           <Typography
             component='h5'
             variant='subtitle1'
             sx={{color: '#E4E4E7', fontSize: 20, fontWeight: 300}}
           >
-            Food From The Heart
+            Mantra Maker
           </Typography>
         </Box>
       </Grid>
