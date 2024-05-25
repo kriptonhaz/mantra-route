@@ -3,23 +3,25 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import trafficBg from '@/assets/img/traffic-car.jpeg';
 import logoMantra from '@/assets/img/logo-mantra.jpeg';
 import {useForm, FormProvider, SubmitHandler} from 'react-hook-form';
-import {LoginInput} from '../interface/auth.interface';
+import {ILoginInput} from '../interface/auth.interface';
 import {LoginForm} from '../components/Form/LoginForm';
-import {schema} from '../validation/portal.validation';
+import {loginSchema} from '../validation/portal.validation';
 import {useAuthHook} from '../hooks/use-auth.hooks';
+import {useNavigate} from 'react-router-dom';
 
 export const LoginPage = () => {
-  const methods = useForm<LoginInput>({
-    // @ts-ignore
-    resolver: yupResolver(schema),
-    defaultValues: {Email: '', Password: ''},
+  const navigate = useNavigate();
+  const methods = useForm<ILoginInput>({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {email: '', password: ''},
   });
 
   const {onLogin} = useAuthHook({setErrorForm: methods.setError});
 
-  const submitLogin: SubmitHandler<LoginInput> = (data) => {
-    onLogin.reset();
-    onLogin.mutate(data);
+  const submitLogin: SubmitHandler<ILoginInput> = (data) => {
+    navigate('/dashboard');
+    // onLogin.reset();
+    // onLogin.mutate(data);
   };
 
   return (

@@ -4,7 +4,6 @@ import {ProfileDataResponseType} from '../interface/profileInfo.interface';
 import {
   HomeOutlined,
   CalendarMonthOutlined,
-  AccessTime,
   FavoriteOutlined,
   BarChartOutlined,
   MapOutlined,
@@ -34,8 +33,9 @@ interface MenuItemsType {
 
 export const DashboardPage = (props: DashboardPageProps) => {
   const location = useLocation();
-  const accessToken = useTokenStore((state) => state.accessToken);
-  const decodeToken = jwt_decode(accessToken as string) as JwtTokenType;
+  // TODO: will activate after it's being wired
+  // const accessToken = useTokenStore((state) => state.accessToken);
+  // const decodeToken = jwt_decode(accessToken as string) as JwtTokenType;
   const {isLoading, profileData} = props;
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -43,8 +43,8 @@ export const DashboardPage = (props: DashboardPageProps) => {
   const [menuItems, setMenuItems] = useState<MenuItemsType[]>([
     {label: 'Home', to: '/dashboard/home', icon: <HomeOutlined sx={{fill: 'inherit'}} />},
     {
-      label: decodeToken.role === 'volunteer' ? 'Calendar' : 'Schedule',
-      to: decodeToken.role === 'volunteer' ? '/dashboard/calendar' : '/dashboard/schedule',
+      label: 'Schedule',
+      to: '/dashboard/schedule',
       icon: <CalendarMonthOutlined sx={{fill: 'inherit'}} />,
     },
     {
@@ -73,20 +73,6 @@ export const DashboardPage = (props: DashboardPageProps) => {
       icon: <NotificationsNone color='secondary' sx={{fill: 'inherit'}} />,
     },
   ]);
-
-  useEffect(() => {
-    // only shown for individual, but for organisation will need confirm with client first
-    if (decodeToken.volunteerType === 'Individual') {
-      let tmpMenuItems = [...menuItems];
-      let menuUpcomingActivities: MenuItemsType = {
-        label: 'Upcoming Events',
-        to: '/dashboard/upcoming',
-        icon: <AccessTime color='secondary' sx={{fill: 'inherit'}} />,
-      };
-      tmpMenuItems.splice(2, 0, menuUpcomingActivities);
-      setMenuItems(tmpMenuItems);
-    }
-  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

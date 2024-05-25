@@ -1,5 +1,4 @@
 import React from 'react';
-import './validation/validation';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import {CssBaseline} from '@mui/material';

@@ -45,7 +45,7 @@
     "react-helmet": "^6.1.0",
     "react-hook-form": "^7.43.9",
     "react-router-dom": "^6.10.0",
-    "yup": "0.32.11",
+    "yup": "^1.4.0",
     "zustand": "^4.3.9"
   },
   "devDependencies": {

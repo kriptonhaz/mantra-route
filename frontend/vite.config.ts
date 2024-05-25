@@ -6,7 +6,7 @@ import {fileURLToPath, URL} from 'url';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3012
+    port: 3002,
   },
   resolve: {
     alias: {

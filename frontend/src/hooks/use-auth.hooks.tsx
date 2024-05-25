@@ -2,7 +2,7 @@ import {AxiosError} from 'axios';
 import {UseMutationResult, useMutation} from '@tanstack/react-query';
 import {useNavigate} from 'react-router-dom';
 import * as PortalAPI from '../api/auth.api';
-import {LoginInput, LoginResult} from '../interface/auth.interface';
+import {ILoginInput, LoginResult} from '../interface/auth.interface';
 import {UseFormSetError} from 'react-hook-form';
 import {queryClient} from '@/service/QueryClient';
 import useTokenStore from '@/store/use-token.store';
@@ -11,7 +11,7 @@ import jwt_decode from 'jwt-decode';
 import {JwtTokenType} from '@/interface/auth.interface';
 
 interface PortalHookType {
-  setErrorForm?: UseFormSetError<LoginInput>;
+  setErrorForm?: UseFormSetError<ILoginInput>;
 }
 
 export const useAuthHook = (props?: PortalHookType) => {
@@ -43,8 +43,8 @@ export const useAuthHook = (props?: PortalHookType) => {
     navigate('/dashboard');
   };
 
-  const onLogin: UseMutationResult<LoginResult, AxiosError | Error, LoginInput, unknown> =
-    useMutation<LoginResult, AxiosError | Error, LoginInput, unknown>({
+  const onLogin: UseMutationResult<LoginResult, AxiosError | Error, ILoginInput, unknown> =
+    useMutation<LoginResult, AxiosError | Error, ILoginInput, unknown>({
       mutationFn: PortalAPI.loginPortal,
       onSuccess: (loginInfo) => {
         tokenStore.setIsLogin(true);
@@ -57,9 +57,9 @@ export const useAuthHook = (props?: PortalHookType) => {
       onError: (error) => {
         if (props?.setErrorForm) {
           if (error instanceof AxiosError) {
-            props?.setErrorForm('Email', {message: error.response?.data?.error});
+            props?.setErrorForm('email', {message: error.response?.data?.error});
           } else if (error instanceof Error) {
-            props?.setErrorForm('Email', {message: error.message});
+            props?.setErrorForm('email', {message: error.message});
           }
         }
       },

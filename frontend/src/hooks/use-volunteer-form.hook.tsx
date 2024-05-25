@@ -1,7 +1,7 @@
 import {apiPostalCode} from '@/api/postalCodeRepo';
 import {getYourDetailsDataData, submitVolunteerYourDetailsForm} from '@/api/volunteer-form.api';
 import {IYourDetailsForm} from '@/interface/volunteer.interface';
-import {volunteerYourDetailsFormValidationSchema} from '@/validation/volunteer.validation';
+// import {volunteerYourDetailsFormValidationSchema} from '@/validation/volunteer.validation';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {useEffect} from 'react';
@@ -21,7 +21,7 @@ export const useVolunteerFormYourDetailHook = () => {
   const rhf = useForm<IYourDetailsForm>({
     mode: 'onChange',
     // @ts-ignore
-    resolver: yupResolver(volunteerYourDetailsFormValidationSchema),
+    // resolver: yupResolver(volunteerYourDetailsFormValidationSchema),
     defaultValues: {
       volunteerType: 'individual',
       eventType: [],

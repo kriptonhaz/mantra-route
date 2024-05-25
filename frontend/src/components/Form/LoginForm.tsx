@@ -1,9 +1,7 @@
-import {info} from '@/themes/ts/colors';
 import {Box, IconButton, Stack, Typography} from '@mui/material';
 import React, {useState} from 'react';
 import {useFormContext} from 'react-hook-form';
-import {NavLink} from 'react-router-dom';
-import {LoginInput} from '../../interface/auth.interface';
+import {ILoginInput} from '../../interface/auth.interface';
 import {Button} from '../Button/ThemedButton';
 import FeatherIcon from '../FeatherIcon/FeatherIcon';
 import InputFloating from '../InputFloating/InputFloating';
@@ -12,7 +10,7 @@ export const LoginForm = () => {
   const {
     register,
     formState: {errors},
-  } = useFormContext<LoginInput>();
+  } = useFormContext<ILoginInput>();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,18 +32,18 @@ export const LoginForm = () => {
         <InputFloating
           label='Email'
           type='email'
-          {...register('Email')}
-          error={!!errors?.Email?.message}
-          helperText={errors?.Email?.message}
+          {...register('email')}
+          error={!!errors?.email?.message}
+          helperText={errors?.email?.message}
           startIcon={<FeatherIcon icon='mail' />}
         />
         <InputFloating
           label='Password'
-          {...register('Password')}
+          {...register('password')}
           startIcon={<FeatherIcon icon='lock' />}
           type={showPassword ? 'text' : 'password'}
-          error={!!errors?.Password?.message}
-          helperText={errors?.Password?.message}
+          error={!!errors?.password?.message}
+          helperText={errors?.password?.message}
           endIcon={
             <IconButton
               sx={{mt: -2}}
@@ -57,32 +55,10 @@ export const LoginForm = () => {
           }
         />
       </Stack>
-      <Stack
-        direction={'row'}
-        justifyContent={'flex-end'}
-        alignItems={'center'}
-        sx={{mt: 4, mb: 6}}
-      >
-        <NavLink to={'/forget'} style={{textDecoration: 'none'}}>
-          <Typography variant='body2' sx={{color: info[500]}} fontWeight='medium'>
-            Forgot Password
-          </Typography>
-        </NavLink>
-      </Stack>
       <Box sx={{display: 'flex', justifyContent: 'flex-end', paddingY: 2}}></Box>
       <Button type='submit' variant='contained' fullWidth size='2xl'>
         Sign In
       </Button>
-      <Box>
-        <Typography variant='body2' textAlign={'center'} mt={6} color='text.secondary'>
-          Don't have an account?{' '}
-          <NavLink to='/your-details'>
-            <Typography variant='body2' sx={{color: info[500], display: 'inline-block', ml: 2}}>
-              Register here
-            </Typography>
-          </NavLink>
-        </Typography>
-      </Box>
     </>
   );
 };

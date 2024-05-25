@@ -6,9 +6,6 @@ import './App.css';
 import LoadingPage from './components/LoadingPage/LoadingPage';
 import {ModalError} from './components/Modal';
 import {ActivityDetail} from './pages/Activity/ActivityDetail';
-import {VolunteerDetail} from './pages/Volunteer/VolunteerDetail';
-import VolunteerSubmissionSuccessPage from './pages/Volunteer/submission-success';
-import VolunteerYourDetails from './pages/Volunteer/your-details';
 import {BreadRunPage} from './pages/breadrun';
 import {DeliveryOrders} from './pages/breadrun/Delivery';
 import {DeliveryDetail} from './pages/breadrun/Detail/DeliveryDetail';
@@ -17,10 +14,6 @@ import {History} from './pages/breadrun/History';
 import {Overview} from './pages/breadrun/Overview';
 import {DeliveryRoutes} from './pages/breadrun/Routes';
 import {DashboardPage} from './pages/dashboard';
-import DonationPage from './pages/donate';
-import PaynowPage from './pages/donate/paynow';
-import DonationResultPage from './pages/donate/result';
-import DonateReviewPage from './pages/donate/review';
 import Error404 from './pages/error/404';
 import {Error500} from './pages/error/500';
 import Attendance from './routes/dashboard/attendance/page';
@@ -33,11 +26,7 @@ import Upcoming from './routes/dashboard/upcoming/page';
 import VolunteerOrganisationPage from './routes/dashboard/volunteer/organisation';
 import Volunteer from './routes/dashboard/volunteer/page';
 import {Forgot, ResetPassword} from './routes/forget/page';
-import LoginAdmin from './routes/login/admin';
 import Login from './routes/login/page';
-import {Orientation, OrientationInvitation} from './routes/orientation/page';
-import {ProgrammeEventAttendance, ProgrammeInvitation} from './routes/programme/page';
-import {VolunteerRequest, VolunteerRequestInvitation} from './routes/volunteer/page';
 import {queryClient} from './service/QueryClient';
 import useErrorStore from './store/use-error.store';
 import useTokenStore from './store/use-token.store';
@@ -49,11 +38,12 @@ function App() {
   const tokenStore = useTokenStore((state) => state);
 
   const ProtectedRoute = () => {
-    if (accessToken === null) {
-      return <Navigate to='/login' replace />;
-    } else if (tokenStore.isLogin === false) {
-      return <Navigate to='/login' replace />;
-    }
+    // TODO: will activate after it's being wired
+    // if (accessToken === null) {
+    //   return <Navigate to='/login' replace />;
+    // } else if (tokenStore.isLogin === false) {
+    //   return <Navigate to='/login' replace />;
+    // }
 
     return <Outlet />;
   };
@@ -63,29 +53,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
-            <Route path='/' element={<DonationPage />} />
-            <Route path='/donate' element={<DonationPage />} />
-            <Route path='/donate-review' element={<DonateReviewPage />} />
-            <Route path='/donate-result' element={<DonationResultPage />} />
-            <Route path='/donate-paynow' element={<PaynowPage />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/login-admin' element={<LoginAdmin />} />
+            <Route path='/' element={<Login />} />
             <Route path='/forget' element={<Forgot />} />
             <Route path='/reset-password/:token' element={<ResetPassword />} />
-            <Route path='/orientation-event/:idEvent' element={<Orientation />} />
-            <Route path='/invitation-event/:idEvent' element={<OrientationInvitation />} />
-            <Route path='/invitation-programme/:idParticipant' element={<ProgrammeInvitation />} />
-            <Route
-              path='/programme-attendance/:programmeId'
-              element={<ProgrammeEventAttendance />}
-            />
-            <Route path='/volunteer-request/:sessionId' element={<VolunteerRequest />} />
-            <Route
-              path='/volunteer-invitation/:assignedId'
-              element={<VolunteerRequestInvitation />}
-            />
-            <Route path='/your-details' element={<VolunteerYourDetails />} />
-            <Route path='/submission-success' element={<VolunteerSubmissionSuccessPage />} />
             <Route element={<ProtectedRoute />}>
               <Route path='/dashboard' element={<DashboardPage />}>
                 <Route path='' element={<Navigate to='/dashboard/home' replace />} />
@@ -97,7 +67,6 @@ function App() {
                 <Route path='upcoming/:idProgramme' element={<ActivityDetail />} />
                 <Route path='volunteer' element={<Volunteer />} />
                 <Route path='notification' element={<Notification />} />
-                <Route path='volunteer/:idVr' element={<VolunteerDetail />} />
                 <Route
                   path='volunteer/:sessionId/assignment'
                   element={<VolunteerOrganisationPage />}

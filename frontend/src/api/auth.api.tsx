@@ -1,6 +1,6 @@
 import {
   ForgetPasswordInput,
-  LoginInput,
+  ILoginInput,
   LoginResult,
   RefreshTokenResponse,
   ResetPasswordInput,
@@ -16,7 +16,7 @@ export const loginPortalAdmin = async () => {
   return data;
 };
 
-export const loginPortal = async (dataLogin: LoginInput): Promise<LoginResult> => {
+export const loginPortal = async (dataLogin: ILoginInput): Promise<LoginResult> => {
   const {data} = await FfthAPI().request<LoginResult>({
     url: '/contacts/login',
     method: 'POST',

@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 const validationSchema = Yup.object().shape({
   name: Yup.string().required(),
   email: Yup.string().email().required(),
-  mobileNo: Yup.string().required().contact(),
+  // mobileNo: Yup.string().required().contact(),
 });
 
 export interface IModalAddVolunteerProps {

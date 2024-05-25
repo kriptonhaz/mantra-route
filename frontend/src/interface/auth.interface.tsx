@@ -1,6 +1,6 @@
-export interface LoginInput {
-  Email: string | '';
-  Password: string | '';
+export interface ILoginInput {
+  email: string;
+  password: string;
 }
 
 export interface ForgetPasswordInput {
@@ -13,7 +13,7 @@ export interface ResetPasswordInput {
   token: string;
 }
 
-export type LoginInputType = keyof LoginInput;
+export type LoginInputType = keyof ILoginInput;
 
 export interface LoginResult {
   message: string;

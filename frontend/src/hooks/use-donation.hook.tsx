@@ -10,10 +10,10 @@ import {
   IDonationFormResponse,
 } from '@/interface/donation.inteface';
 import useDonationStore from '@/store/use-donation.store';
-import {
-  donationPaymentValidationSchema,
-  donationValidationSchema,
-} from '@/validation/donation.validation';
+// import {
+//   donationPaymentValidationSchema,
+//   donationValidationSchema,
+// } from '@/validation/donation.validation';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import dayjs from 'dayjs';
@@ -29,7 +29,7 @@ export const useDonationHook = () => {
   const rhf = useForm<IDonationForm>({
     mode: 'onChange',
     // @ts-ignore
-    resolver: yupResolver(donationValidationSchema),
+    // resolver: yupResolver(donationValidationSchema),
     defaultValues: {
       programmeId: '',
       donationID: '',
@@ -60,7 +60,7 @@ export const useDonationHook = () => {
   const paymentMethodRhf = useForm<IChangePaymentMethodDonationForm>({
     mode: 'onChange',
     // @ts-ignore
-    resolver: yupResolver(donationPaymentValidationSchema),
+    // resolver: yupResolver(donationPaymentValidationSchema),
     defaultValues: {
       donationId: '',
     },
