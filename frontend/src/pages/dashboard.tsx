@@ -4,18 +4,17 @@ import {ProfileDataResponseType} from '../interface/profileInfo.interface';
 import {
   HomeOutlined,
   CalendarMonthOutlined,
-  FavoriteOutlined,
-  BarChartOutlined,
-  MapOutlined,
   PersonOutline,
   MenuOutlined,
   NotificationsNone,
+  TwoWheeler,
+  Store,
 } from '@mui/icons-material';
 import {useEffect, useState} from 'react';
 import jwt_decode from 'jwt-decode';
 import {AppDrawer} from '../components/AppDrawer/AppDrawer';
 import {InnerDrawer} from '../components/AppDrawer/InnerDrawer';
-import ffthLogo from '../assets/img/logo-ffth.png';
+import logoMantraWhite from '@/assets/img/logo-mantra-white.png';
 import {neutral} from '@/themes/ts/colors';
 import useTokenStore from '@/store/use-token.store';
 import {JwtTokenType} from '@/interface/auth.interface';
@@ -48,19 +47,14 @@ export const DashboardPage = (props: DashboardPageProps) => {
       icon: <CalendarMonthOutlined sx={{fill: 'inherit'}} />,
     },
     {
-      label: 'Volunteer Opportunities',
-      to: '/dashboard/volunteer',
-      icon: <FavoriteOutlined color='secondary' sx={{fill: 'inherit'}} />,
+      label: 'Frontliners',
+      to: '/dashboard/frontliners',
+      icon: <TwoWheeler color='secondary' sx={{fill: 'inherit'}} />,
     },
     {
-      label: 'Attendance',
-      to: '/dashboard/attendance',
-      icon: <BarChartOutlined color='secondary' sx={{fill: 'inherit'}} />,
-    },
-    {
-      label: 'Bread Run',
-      to: '/dashboard/breadrun',
-      icon: <MapOutlined color='secondary' sx={{fill: 'inherit'}} />,
+      label: 'Outlet',
+      to: '/dashboard/outlet',
+      icon: <Store color='secondary' sx={{fill: 'inherit'}} />,
     },
     {
       label: 'Profile',
@@ -106,8 +100,8 @@ export const DashboardPage = (props: DashboardPageProps) => {
             sx={{
               height: 40,
             }}
-            alt='FFTH'
-            src={ffthLogo}
+            alt='mantrawhite'
+            src={logoMantraWhite}
           />
           <IconButton
             color='inherit'
@@ -169,7 +163,8 @@ export const DashboardPage = (props: DashboardPageProps) => {
       <Box
         sx={{
           width: '100%',
-          minHeight: '100vh',
+          minHeight: '90vh',
+          maxHeight: '100vh',
           background: '#fff',
           borderTopLeftRadius: '40px',
           marginTop: '20px',

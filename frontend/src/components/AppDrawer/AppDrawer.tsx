@@ -21,6 +21,7 @@ import {LogoutOutlined} from '@mui/icons-material';
 import {useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import ffthLogo from '../../assets/img/logo-ffth.png';
+import logoMantraWhite from '@/assets/img/logo-mantra-white.png';
 import {useProfileHook} from '../../hooks/use-profile.hooks';
 import {ProfileDataResponseType} from '../../interface/profileInfo.interface';
 import {FHNeutral} from '../../themes/FHColor';
@@ -121,10 +122,10 @@ export const AppDrawer = (props: AppDrawerProps) => {
                 <Box
                   component='img'
                   sx={{
-                    height: 40,
+                    height: 35,
                   }}
-                  alt='FFTH'
-                  src={ffthLogo}
+                  alt='mantrawhite'
+                  src={logoMantraWhite}
                 />
                 <IconButton onClick={handleDrawerChevron}>
                   <FeatherIcon icon='arrow-left' sx={{color: neutral[400]}} />

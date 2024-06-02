@@ -65,14 +65,14 @@ function App() {
                 <Route path='upload' element={<Schedule />} />
                 <Route path='upcoming' element={<Upcoming />} />
                 <Route path='upcoming/:idProgramme' element={<ActivityDetail />} />
-                <Route path='volunteer' element={<Volunteer />} />
+                <Route path='frontliners' element={<Volunteer />} />
+                <Route path='outlet' element={<Attendance />} />
                 <Route path='notification' element={<Notification />} />
                 <Route
                   path='volunteer/:sessionId/assignment'
                   element={<VolunteerOrganisationPage />}
                 />
-                <Route path='attendance' element={<Attendance />} />
-                <Route path='breadrun' element={<Outlet />}>
+                {/* <Route path='breadrun' element={<Outlet />}>
                   <Route path='' element={<BreadRunPage />}>
                     <Route path='' element={<Overview isRegistered />} />
                     <Route path='routes' element={<DeliveryRoutes />} />
@@ -85,7 +85,7 @@ function App() {
                   <Route path='deliverydetail' element={<Outlet />}>
                     <Route path=':id' element={<DeliveryDetail />} />
                   </Route>
-                </Route>
+                </Route> */}
                 <Route path='profile' element={<Profile />} />
               </Route>
             </Route>

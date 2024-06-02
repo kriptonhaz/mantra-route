@@ -28,21 +28,13 @@ const DashboardHomeUI: React.FC = () => {
   return (
     <DashboardLayout
       title={`Welcome back, ${profileUser.data?.data?.Name || ''}`}
-      subtitle='Track and manage volunteers'
+      subtitle='Track and manage frontliners'
       badgeProps={{
         badgeContent: notificationUnreadUser.data?.unreadMessage,
       }}
     >
-      <DashboardLayout.Content>
+      {/* <DashboardLayout.Content>
         <Stack direction={{xs: 'column', md: 'row'}} spacing={4}>
-          <CardDashboard
-            icon='users'
-            title='Total Volunteering Hours'
-            subtitle="Combined from your organisation's volunteers"
-            value={`${volunteerActivity.data?.volunteerHours ?? 0} hrs`}
-            btnProps={{text: 'Volunteer Opportunities'}}
-            onClick={gotoVolunteerPage}
-          />
           <CardDashboard
             icon='clipboard'
             title='Total Attendances'
@@ -61,7 +53,7 @@ const DashboardHomeUI: React.FC = () => {
           <Divider />
           <ListUpcomingActivities />
         </Card>
-      </DashboardLayout.Activity>
+      </DashboardLayout.Activity> */}
     </DashboardLayout>
   );
 };
