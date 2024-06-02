@@ -1,6 +1,3 @@
-Fullname,Email,Mobile
-Participant User one,user1@gmail.com,99990991
-Participant User two,user2@gmail.com,99990992
-Participant User three,user3@gmail.com,99990993
-Participant User four,user4@gmail.com,99990994
-Participant User five,user5@gmail.com,99990995
+Frontliner ID,Name,Position,ID Project,Latitude,Longitude,Max Visit Per Day,Off Day,Channel Outlet,Max Travel Time,Max Duration Visit
+210812191,AYU ADE PERTIWI,MCR MINIS,2109404,-3.2823318,102.8641652,12,Sunday,Mini Market,1800,1800,
+210812255,CITRA SEPTI HANDAYANI,MCR MINIS,2109404,-6.9223314,107.5905553,10,Sunday,Mini Market,1800,1800
