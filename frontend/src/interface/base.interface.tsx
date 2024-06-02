@@ -8,3 +8,12 @@ export type MetaPaginationType = {
   totalPages: number;
   currentPage: number;
 };
+
+export type MetaPaginationResponseType = {
+  Page: number;
+  DataOffset: number;
+  PerPage: number;
+  TotalData: number;
+  TotalPage: number;
+  TotalSum: number;
+};
