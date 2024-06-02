@@ -3,7 +3,7 @@ import {delayLoading} from '@/utils/delay-loading';
 import React, {Suspense, lazy} from 'react';
 
 const VolunteerOrganisation = lazy(() =>
-  delayLoading(import('@/features/dashboard/volunteer/organisation')),
+  delayLoading(import('@/features/dashboard/frontliners/organisation')),
 );
 
 const VolunteerOrganisationPage: React.FC = () => {

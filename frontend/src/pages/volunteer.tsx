@@ -1,4 +1,4 @@
-import VolunteerOpportunitiesUI from '@/features/dashboard/volunteer';
+import VolunteerOpportunitiesUI from '@/features/dashboard/frontliners';
 import {Box} from '@mui/material';
 import * as React from 'react';
 
