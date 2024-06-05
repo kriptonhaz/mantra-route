@@ -2,14 +2,14 @@ import {LoadingPortal} from '@/components/LoadingPage/LoadingPage';
 import {delayLoading} from '@/utils/delay-loading';
 import React, {Suspense, lazy} from 'react';
 
-const VolunteerPage = lazy(() =>
-  delayLoading(import('@/pages/volunteer').then((module) => ({default: module.VolunteerPage}))),
+const FrontlinersPage = lazy(() =>
+  delayLoading(import('@/pages/frontliners').then((module) => ({default: module.FrontlinersPage}))),
 );
 
 const Volunteer: React.FC = () => {
   return (
     <Suspense fallback={<LoadingPortal />}>
-      <VolunteerPage />
+      <FrontlinersPage />
     </Suspense>
   );
 };
