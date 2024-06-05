@@ -102,7 +102,7 @@ const ModalAddFrontliners: React.FC<IModalAddFrontlinersProps> = ({show, onClose
             />
             <ErrorMessage message={errors?.csvFile?.message} />
             <Button
-              href='/ParticipantDatav2.csv'
+              href='/frontliners-template.csv'
               startIcon={<FeatherIcon icon='download' />}
               variant='outlined'
               color='inherit'
