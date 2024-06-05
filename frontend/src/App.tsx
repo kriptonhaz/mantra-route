@@ -16,7 +16,7 @@ import {DeliveryRoutes} from './pages/breadrun/Routes';
 import {DashboardPage} from './pages/dashboard';
 import Error404 from './pages/error/404';
 import {Error500} from './pages/error/500';
-import Attendance from './routes/dashboard/attendance/page';
+import Outlets from './routes/dashboard/outlets/page';
 import Calendar from './routes/dashboard/calendar/page';
 import Home from './routes/dashboard/home/page';
 import Notification from './routes/dashboard/notification/page';
@@ -66,7 +66,7 @@ function App() {
                 <Route path='upcoming' element={<Upcoming />} />
                 <Route path='upcoming/:idProgramme' element={<ActivityDetail />} />
                 <Route path='frontliners' element={<Frontliners />} />
-                <Route path='outlet' element={<Attendance />} />
+                <Route path='outlet' element={<Outlets />} />
                 <Route path='notification' element={<Notification />} />
                 <Route
                   path='volunteer/:sessionId/assignment'
