@@ -24,7 +24,7 @@ import Profile from './routes/dashboard/profile/page';
 import Schedule from './routes/dashboard/schedule/page';
 import Upcoming from './routes/dashboard/upcoming/page';
 import VolunteerOrganisationPage from './routes/dashboard/frontliners/organisation';
-import Volunteer from './routes/dashboard/frontliners/page';
+import Frontliners from './routes/dashboard/frontliners/page';
 import {Forgot, ResetPassword} from './routes/forget/page';
 import Login from './routes/login/page';
 import {queryClient} from './service/QueryClient';
@@ -65,7 +65,7 @@ function App() {
                 <Route path='upload' element={<Schedule />} />
                 <Route path='upcoming' element={<Upcoming />} />
                 <Route path='upcoming/:idProgramme' element={<ActivityDetail />} />
-                <Route path='frontliners' element={<Volunteer />} />
+                <Route path='frontliners' element={<Frontliners />} />
                 <Route path='outlet' element={<Attendance />} />
                 <Route path='notification' element={<Notification />} />
                 <Route
