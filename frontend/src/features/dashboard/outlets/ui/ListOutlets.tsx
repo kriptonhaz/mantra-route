@@ -145,7 +145,7 @@ const ListOutlets: React.FC = () => {
                   dataOutletsCompany?.data.map((row, i) => (
                     <TableRow key={i}>
                       <TableCell>{row.outlet_id}</TableCell>
-                      <TableCell>{row.outlet}</TableCell>
+                      <TableCell>{row.name}</TableCell>
                       <TableCell>{row.cycle}</TableCell>
                       <TableCell>{row.interval}</TableCell>
                       <TableCell>{row.frontliner_external_id}</TableCell>

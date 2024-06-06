@@ -60,7 +60,7 @@ const ModalAddOutlets: React.FC<IModalAddOutletsProps> = ({show, onClose}) => {
         const payload: IOutlets[] = csvData.map((item) => {
           return {
             outlet_id: item['Outlet ID'],
-            outlet: item.Outlet,
+            name: item.Outlet,
             must_visit_day: item['must visit day'],
             cycle: parseInt(item.cycle),
             interval: parseInt(item['Interval(jeda kunjungan)']),

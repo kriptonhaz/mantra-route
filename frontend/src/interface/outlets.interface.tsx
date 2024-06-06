@@ -2,7 +2,7 @@ import {MetaPaginationResponseType} from './base.interface';
 
 export interface IOutlets {
   outlet_id: string;
-  outlet: string;
+  name: string;
   must_visit_day: string;
   cycle: number;
   interval: number;
