@@ -2,7 +2,6 @@ import {LogoutOutlined} from '@mui/icons-material';
 import {
   Avatar,
   Box,
-  CircularProgress,
   Divider,
   List,
   ListItem,
@@ -75,40 +74,25 @@ export const InnerDrawer = (props: AppDrawerProps) => {
           flexDirection: 'column',
         }}
       >
-        {profileUser.isLoading ? (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            {' '}
-            <CircularProgress />
-          </Box>
-        ) : (
-          <Box>
-            <ListItemButton onClick={handleLogout} sx={{margin: '1rem 0'}}>
-              <ListItemIcon>
-                <LogoutOutlined color='secondary' sx={{color: FHNeutral[400]}} />
-              </ListItemIcon>
-              <ListItemText sx={{color: FHNeutral[400]}} primary='Logout' />
-            </ListItemButton>
-            <Divider variant='middle' sx={{borderColor: 'gray'}} />
-            <ListItemButton sx={{margin: '1rem 0'}}>
-              <ListItemIcon>
-                <Avatar
-                  alt={profileUser.data?.data?.Name}
-                  src={profileUser.data?.data?.Profile_Image_Url__c}
-                  sx={{color: FHNeutral[400], width: 32, height: 32}}
-                />
-              </ListItemIcon>
-              <ListItemText sx={{color: FHNeutral[400]}}>
-                {profileUser.data?.data?.Name}
-              </ListItemText>
-            </ListItemButton>
-          </Box>
-        )}
+        <Box>
+          <ListItemButton onClick={handleLogout} sx={{margin: '1rem 0'}}>
+            <ListItemIcon>
+              <LogoutOutlined color='secondary' sx={{color: FHNeutral[400]}} />
+            </ListItemIcon>
+            <ListItemText sx={{color: FHNeutral[400]}} primary='Logout' />
+          </ListItemButton>
+          <Divider variant='middle' sx={{borderColor: 'gray'}} />
+          <ListItemButton sx={{margin: '1rem 0'}}>
+            <ListItemIcon>
+              <Avatar
+                alt={profileUser?.username}
+                src={undefined}
+                sx={{color: FHNeutral[400], width: 32, height: 32}}
+              />
+            </ListItemIcon>
+            <ListItemText sx={{color: FHNeutral[400]}}>{profileUser?.username}</ListItemText>
+          </ListItemButton>
+        </Box>
       </List>
     </Box>
   );

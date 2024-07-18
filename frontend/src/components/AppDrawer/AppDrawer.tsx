@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   CSSObject,
-  CircularProgress,
   Divider,
   IconButton,
   List,
@@ -20,7 +19,6 @@ import {neutral} from '@/themes/ts/colors';
 import {LogoutOutlined} from '@mui/icons-material';
 import {useState} from 'react';
 import {Link, NavLink} from 'react-router-dom';
-import ffthLogo from '../../assets/img/logo-ffth.png';
 import logoMantraWhite from '@/assets/img/logo-mantra-white.png';
 import {useProfileHook} from '../../hooks/use-profile.hooks';
 import {ProfileDataResponseType} from '../../interface/profileInfo.interface';
@@ -191,50 +189,35 @@ export const AppDrawer = (props: AppDrawerProps) => {
             flexDirection: 'column',
           }}
         >
-          {profileUser.isLoading ? (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              {' '}
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Box>
-              <ListItemButton onClick={handleLogout} sx={{margin: '1rem 0'}}>
+          <Box>
+            <ListItemButton onClick={handleLogout} sx={{margin: '1rem 0'}}>
+              <ListItemIcon>
+                <LogoutOutlined
+                  color='secondary'
+                  sx={{color: FHNeutral[400], transform: `translateX(${open ? '0' : '-8px'})`}}
+                />
+              </ListItemIcon>
+              <ListItemText sx={{color: FHNeutral[400]}} primary='Logout' />
+            </ListItemButton>
+            <Divider variant='middle' sx={{borderColor: 'gray'}} />
+            <Link to='/dashboard/profile'>
+              <ListItemButton sx={{margin: '1rem 0'}}>
                 <ListItemIcon>
-                  <LogoutOutlined
-                    color='secondary'
-                    sx={{color: FHNeutral[400], transform: `translateX(${open ? '0' : '-8px'})`}}
+                  <Avatar
+                    alt={profileUser?.username}
+                    src={undefined}
+                    sx={{
+                      color: FHNeutral[400],
+                      width: 32,
+                      height: 32,
+                      transform: `translateX(${open ? '0' : '-12px'})`,
+                    }}
                   />
                 </ListItemIcon>
-                <ListItemText sx={{color: FHNeutral[400]}} primary='Logout' />
+                <ListItemText sx={{color: FHNeutral[400]}}>{profileUser?.username}</ListItemText>
               </ListItemButton>
-              <Divider variant='middle' sx={{borderColor: 'gray'}} />
-              <Link to='/dashboard/profile'>
-                <ListItemButton sx={{margin: '1rem 0'}}>
-                  <ListItemIcon>
-                    <Avatar
-                      alt={profileUser.data?.data?.Name}
-                      src={profileUser.data?.data?.Profile_Image_Url__c}
-                      sx={{
-                        color: FHNeutral[400],
-                        width: 32,
-                        height: 32,
-                        transform: `translateX(${open ? '0' : '-12px'})`,
-                      }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText sx={{color: FHNeutral[400]}}>
-                    {profileUser.data?.data?.Name}
-                  </ListItemText>
-                </ListItemButton>
-              </Link>
-            </Box>
-          )}
+            </Link>
+          </Box>
         </List>
       </Box>
     </Drawer>

@@ -4,7 +4,7 @@ import {useProfileHook} from '@/hooks/use-profile.hooks';
 import {useVolunteerHook} from '@/hooks/use-volunteer.hook';
 import DashboardLayout from '@/layouts/dashboard.layout';
 import {Card, Divider, Stack} from '@mui/material';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Calendar from './ui/Calendar';
 import CardDashboard from './ui/CardDashboard';
 import ListAnnouncements from './ui/ListAnnouncements';
@@ -16,10 +16,6 @@ import {getTotalAttendance} from '@/api/attendance.api';
 const DashboardHomeUI: React.FC = () => {
   const navigate = useNavigate();
   const {profileUser} = useProfileHook();
-  const {notificationUnreadUser} = useNotificationHook();
-  const {volunteerActivity} = useVolunteerHook();
-  const {listAnnouncements} = useFeedHook();
-  const totalAttendance = useQuery(['portal', 'total-attendance'], getTotalAttendance);
 
   const gotoVolunteerPage = () => {
     navigate('/dashboard/volunteer');
@@ -27,11 +23,11 @@ const DashboardHomeUI: React.FC = () => {
 
   return (
     <DashboardLayout
-      title={`Welcome back, ${profileUser.data?.data?.Name || ''}`}
+      title={`Welcome back, ${profileUser?.username || ''}`}
       subtitle='Track and manage frontliners'
-      badgeProps={{
-        badgeContent: notificationUnreadUser.data?.unreadMessage,
-      }}
+      // badgeProps={{
+      //   badgeContent: notificationUnreadUser.data?.unreadMessage,
+      // }}
     >
       {/* <DashboardLayout.Content>
         <Stack direction={{xs: 'column', md: 'row'}} spacing={4}>
