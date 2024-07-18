@@ -5,10 +5,10 @@ import {
   RefreshTokenResponse,
   ResetPasswordInput,
 } from '../interface/auth.interface';
-import FfthAPI from './base';
+import API from './base';
 
 export const loginPortalAdmin = async () => {
-  const {data} = await FfthAPI().request<LoginResult>({
+  const {data} = await API().request<LoginResult>({
     url: '/contacts/officer-login',
     method: 'POST',
   });
@@ -17,8 +17,8 @@ export const loginPortalAdmin = async () => {
 };
 
 export const loginPortal = async (dataLogin: ILoginInput): Promise<LoginResult> => {
-  const {data} = await FfthAPI().request<LoginResult>({
-    url: '/contacts/login',
+  const {data} = await API().request<LoginResult>({
+    url: '/v1/login',
     method: 'POST',
     data: dataLogin,
   });
@@ -27,7 +27,7 @@ export const loginPortal = async (dataLogin: ILoginInput): Promise<LoginResult> 
 };
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
-  const {data} = await FfthAPI().request<RefreshTokenResponse>({
+  const {data} = await API().request<RefreshTokenResponse>({
     url: '/FSMAContacts/refresh-token',
     method: 'POST',
   });
@@ -36,7 +36,7 @@ export const refreshToken = async (): Promise<RefreshTokenResponse> => {
 };
 
 export const onForgotPassword = async (dataForgot: ForgetPasswordInput): Promise<any> => {
-  const {data} = await FfthAPI().request<any>({
+  const {data} = await API().request<any>({
     url: '/contacts/forget-password',
     method: 'POST',
     data: dataForgot,
@@ -46,7 +46,7 @@ export const onForgotPassword = async (dataForgot: ForgetPasswordInput): Promise
 };
 
 export const onResetPassword = async (dataReset: ResetPasswordInput): Promise<any> => {
-  const {data} = await FfthAPI().request<any>({
+  const {data} = await API().request<any>({
     url: `/contacts/forget-password/verifyToken/${dataReset.token}`,
     method: 'PATCH',
     data: dataReset,

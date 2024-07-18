@@ -23,10 +23,8 @@ export const useAuthHook = (props?: PortalHookType) => {
     mutationFn: PortalAPI.loginPortalAdmin,
     onSuccess: (loginInfo) => {
       tokenStore.setIsLogin(true);
-      tokenStore.setAccessToken(loginInfo.accessToken);
-      const decodeToken = jwt_decode(loginInfo.accessToken) as JwtTokenType;
-      tokenStore.setRole(decodeToken.role);
-      localStorage.setItem('accessToken', loginInfo.accessToken);
+      tokenStore.setAccessToken(loginInfo.data.token);
+      localStorage.setItem('accessToken', loginInfo.data.token);
       navigate('/dashboard');
     },
     onError: (err) => {
@@ -38,7 +36,6 @@ export const useAuthHook = (props?: PortalHookType) => {
     tokenStore.setIsLogin(true);
     tokenStore.setAccessToken(accessToken);
     const decodeToken = jwt_decode(accessToken) as JwtTokenType;
-    tokenStore.setRole(decodeToken.role);
     localStorage.setItem('accessToken', accessToken);
     navigate('/dashboard');
   };
@@ -48,18 +45,16 @@ export const useAuthHook = (props?: PortalHookType) => {
       mutationFn: PortalAPI.loginPortal,
       onSuccess: (loginInfo) => {
         tokenStore.setIsLogin(true);
-        tokenStore.setAccessToken(loginInfo.accessToken); //useless but keep it first
-        const decodeToken = jwt_decode(loginInfo.accessToken) as JwtTokenType;
-        tokenStore.setRole(decodeToken.role);
-        localStorage.setItem('accessToken', loginInfo.accessToken);
+        tokenStore.setAccessToken(loginInfo.data.token); //useless but keep it first
+        localStorage.setItem('accessToken', loginInfo.data.token);
         navigate('/dashboard');
       },
       onError: (error) => {
         if (props?.setErrorForm) {
           if (error instanceof AxiosError) {
-            props?.setErrorForm('email', {message: error.response?.data?.error});
+            props?.setErrorForm('username', {message: error.response?.data?.message});
           } else if (error instanceof Error) {
-            props?.setErrorForm('email', {message: error.message});
+            props?.setErrorForm('username', {message: error.message});
           }
         }
       },

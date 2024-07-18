@@ -30,12 +30,11 @@ export const LoginForm = () => {
       </Typography>
       <Stack direction='column' spacing={4}>
         <InputFloating
-          label='Email'
-          type='email'
-          {...register('email')}
-          error={!!errors?.email?.message}
-          helperText={errors?.email?.message}
-          startIcon={<FeatherIcon icon='mail' />}
+          label='Username'
+          {...register('username')}
+          error={!!errors?.username?.message}
+          helperText={errors?.username?.message}
+          startIcon={<FeatherIcon icon='user' />}
         />
         <InputFloating
           label='Password'

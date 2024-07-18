@@ -13,15 +13,13 @@ export const LoginPage = () => {
   const navigate = useNavigate();
   const methods = useForm<ILoginInput>({
     resolver: yupResolver(loginSchema),
-    defaultValues: {email: '', password: ''},
+    defaultValues: {username: '', password: ''},
   });
 
   const {onLogin} = useAuthHook({setErrorForm: methods.setError});
 
   const submitLogin: SubmitHandler<ILoginInput> = (data) => {
-    navigate('/dashboard');
-    // onLogin.reset();
-    // onLogin.mutate(data);
+    onLogin.mutate(data);
   };
 
   return (

@@ -1,5 +1,5 @@
 export interface ILoginInput {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -16,10 +16,21 @@ export interface ResetPasswordInput {
 export type LoginInputType = keyof ILoginInput;
 
 export interface LoginResult {
+  code: number;
+  data: {
+    id: string;
+    username: string;
+    password: string;
+    vendor: string;
+    phone: string;
+    email: string;
+    vendor_name: string;
+    exp: number;
+    token: string;
+  };
   message: string;
-  accessToken: string;
-  userType: string;
-  isPhoneVerified: boolean;
+  meta: number;
+  status: number;
 }
 
 export interface EditableFormProp {
@@ -33,17 +44,13 @@ export interface RefreshTokenResponse {
 export type VolunteerTokenType = 'Individual' | 'Contact';
 export type RoleType = 'volunteer' | 'volunteer officer';
 export interface JwtTokenType {
-  userType: string;
-  role: RoleType;
-  volunteerType: VolunteerTokenType;
-  Stakeholder: string;
-  Id: string;
-  Name: string;
-  Title: string;
-  Email: string;
-  HomePhone: string | null;
-  MobilePhone: string | null;
-  Birthdate: string | null;
-  iat: number;
+  id: string;
+  username: string;
+  password: string;
+  vendor: string;
+  phone: string;
+  email: string;
+  vendor_name: string;
   exp: number;
+  token: string;
 }
