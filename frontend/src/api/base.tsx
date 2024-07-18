@@ -60,7 +60,7 @@ export const initialize = (params?: APIParams, anonymous?: boolean): AxiosInstan
           localStorage.removeItem('accessToken');
           tokenStore.setIsLogin(false);
         } else {
-          config.headers['accessToken'] = accessToken;
+          config.headers['Authorization'] = 'Bearer ' + accessToken;
         }
       }
       return config;
