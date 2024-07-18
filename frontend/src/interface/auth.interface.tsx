@@ -15,19 +15,20 @@ export interface ResetPasswordInput {
 
 export type LoginInputType = keyof ILoginInput;
 
+export type IProfile = {
+  id: string;
+  username: string;
+  password: string;
+  vendor: string;
+  phone: string;
+  email: string;
+  vendor_name: string;
+  exp: number;
+  token: string;
+};
 export interface LoginResult {
   code: number;
-  data: {
-    id: string;
-    username: string;
-    password: string;
-    vendor: string;
-    phone: string;
-    email: string;
-    vendor_name: string;
-    exp: number;
-    token: string;
-  };
+  data: IProfile;
   message: string;
   meta: number;
   status: number;

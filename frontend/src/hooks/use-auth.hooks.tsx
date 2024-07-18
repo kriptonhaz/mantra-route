@@ -7,8 +7,6 @@ import {UseFormSetError} from 'react-hook-form';
 import {queryClient} from '@/service/QueryClient';
 import useTokenStore from '@/store/use-token.store';
 import useErrorStore from '@/store/use-error.store';
-import jwt_decode from 'jwt-decode';
-import {JwtTokenType} from '@/interface/auth.interface';
 
 interface PortalHookType {
   setErrorForm?: UseFormSetError<ILoginInput>;
@@ -19,33 +17,13 @@ export const useAuthHook = (props?: PortalHookType) => {
   const tokenStore = useTokenStore();
   const errorStore = useErrorStore();
 
-  const onLoginAdmin = useMutation({
-    mutationFn: PortalAPI.loginPortalAdmin,
-    onSuccess: (loginInfo) => {
-      tokenStore.setIsLogin(true);
-      tokenStore.setAccessToken(loginInfo.data.token);
-      localStorage.setItem('accessToken', loginInfo.data.token);
-      navigate('/dashboard');
-    },
-    onError: (err) => {
-      console.log('err', err);
-    },
-  });
-
-  const onLoginAdminProd = (accessToken: string) => {
-    tokenStore.setIsLogin(true);
-    tokenStore.setAccessToken(accessToken);
-    const decodeToken = jwt_decode(accessToken) as JwtTokenType;
-    localStorage.setItem('accessToken', accessToken);
-    navigate('/dashboard');
-  };
-
   const onLogin: UseMutationResult<LoginResult, AxiosError | Error, ILoginInput, unknown> =
     useMutation<LoginResult, AxiosError | Error, ILoginInput, unknown>({
       mutationFn: PortalAPI.loginPortal,
       onSuccess: (loginInfo) => {
         tokenStore.setIsLogin(true);
         tokenStore.setAccessToken(loginInfo.data.token); //useless but keep it first
+        localStorage.setItem('profile', JSON.stringify(loginInfo.data));
         localStorage.setItem('accessToken', loginInfo.data.token);
         navigate('/dashboard');
       },
@@ -64,8 +42,9 @@ export const useAuthHook = (props?: PortalHookType) => {
   const onLogout = () => {
     tokenStore.setAccessToken(null);
     tokenStore.setRole(null);
+    localStorage.clear();
     queryClient.invalidateQueries({queryKey: ['profileUser']});
-    navigate('/login');
+    navigate('/');
   };
 
   const onForgotPassword = useMutation({
@@ -94,8 +73,6 @@ export const useAuthHook = (props?: PortalHookType) => {
 
   return {
     onLogin,
-    onLoginAdmin,
-    onLoginAdminProd,
     onLogout,
     onForgotPassword,
     onResetPassword,
