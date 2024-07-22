@@ -19,3 +19,19 @@ export interface IGetCompanyResponse {
   meta: number;
   status: number;
 }
+
+export interface IPostCompanyData {
+  name: string;
+  pic: string;
+  phone: string;
+  email: string;
+  address: string;
+  vendor: string;
+}
+
+export interface IPostCompanyResponse {
+  code: number;
+  message: string;
+  meta: number;
+  status: number;
+}

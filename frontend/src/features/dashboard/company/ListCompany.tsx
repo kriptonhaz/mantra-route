@@ -1,13 +1,9 @@
 import FeatherIcon from '@/components/FeatherIcon/FeatherIcon';
-import InputSearch from '@/components/InputSearch';
-import Pagination from '@/components/Pagination/Pagination';
 import {
   Box,
   Button,
-  CircularProgress,
   Divider,
   Stack,
-  Typography,
   Paper,
   Table,
   TableBody,
@@ -17,72 +13,16 @@ import {
   TableRow,
 } from '@mui/material';
 import {NotePencil, Trash} from 'phosphor-react';
-import React, {useState, useEffect} from 'react';
-import {VrRequestType} from '@/interface/volunteerRequest.interface';
+import React, {useState} from 'react';
 import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
 import {useCompanyHook} from '@/hooks/use-company.hook';
+import ModalAddCompany from './ModalAddCompany';
 
 const ListCompany: React.FC = () => {
-  const [showModalFilter, setShowModalFilter] = useState(false);
-  const [showModalAddFrontliner, setShowModalAddFrontliner] = useState(false);
-  const [tmpSearchKeyword, setTmpSearchKeyword] = useState('');
-  const [propsRequest, setPropsRequest] = React.useState<VrRequestType>({
-    page: 1,
-    limit: 5,
-    search: '',
-    status: '',
-    name: '',
-    date: '',
-  });
+  const [showModalAddCompany, setShowModalAddCompany] = useState(false);
   const {getCompanyQuery} = useCompanyHook();
-  const {data: dataListCompany, isPreviousData, isLoading: isLoadingCompany} = getCompanyQuery();
-
-  // useEffect(() => {
-  //   if (
-  //     !isPreviousData &&
-  //     (dataVolunteerRequest?.metaData.totalPages || 0) <= (propsRequest.page || 0)
-  //   ) {
-  //     queryClient.prefetchQuery({
-  //       queryKey: ['listVolunteerRequest', propsRequest],
-  //       queryFn: () => getListVolunteerRequest(propsRequest),
-  //     });
-  //   }
-  // }, [dataVolunteerRequest, queryClient, isPreviousData, propsRequest]);
-
-  useEffect(() => {
-    const timeoutSearch = setTimeout(() => {
-      setPropsRequest((prevState) => ({...prevState, search: tmpSearchKeyword}));
-    }, 250);
-    return () => clearTimeout(timeoutSearch);
-  }, [tmpSearchKeyword]);
-
-  const onNextPage = () => {
-    setPropsRequest((prevState: VrRequestType) => {
-      return {
-        ...propsRequest,
-        page: (prevState.page ?? 1) + 1,
-      };
-    });
-  };
-
-  const onPrevPage = () => {
-    setPropsRequest((prevState: VrRequestType) => {
-      return {
-        ...propsRequest,
-        page: (prevState.page ?? 1) - 1,
-      };
-    });
-  };
-
-  const onChangePage = (val: number) => {
-    setPropsRequest({...propsRequest, page: val});
-  };
-
-  const handleFilter = (data: Partial<VrRequestType>) => {
-    setPropsRequest((prev) => ({...prev, ...data}));
-    setShowModalFilter(false);
-  };
+  const {data: dataListCompany} = getCompanyQuery();
 
   return (
     <Box>
@@ -92,37 +32,11 @@ const ListCompany: React.FC = () => {
         alignItems={{xs: 'flex-start', md: 'center'}}
       >
         <Stack direction='column' spacing={2}>
-          {/* {isLoadingVolunteerRequest ? (
-            <CircularProgress color={'primary'} />
-          ) : (
-            <Typography color='text.secondary' mb={{xs: 2, md: 0}}>
-              Showing{' '}
-              {(dataVolunteerRequest?.metaData.totalPages || 0) <=
-              (dataVolunteerRequest?.metaData.currentPage || 0)
-                ? dataVolunteerRequest?.metaData.totalRecords
-                : (dataVolunteerRequest?.metaData.currentPage || 0) *
-                  (propsRequest.limit || 0)}{' '}
-              of {dataVolunteerRequest?.metaData.totalRecords || 'N/A'} total
-            </Typography>
-          )} */}
           <Button
-            onClick={() => setShowModalAddFrontliner(true)}
+            onClick={() => setShowModalAddCompany(true)}
             startIcon={<FeatherIcon icon='plus' />}
           >
             Add Company
-          </Button>
-        </Stack>
-        <Stack direction='row' spacing={2}>
-          <InputSearch onChange={(e) => setTmpSearchKeyword(e.target.value)} />
-          <Button
-            variant='outlined'
-            color='inherit'
-            startIcon={
-              <FeatherIcon icon='filter' sx={{'& svg': {transform: 'scale(.8) translateY(3px)'}}} />
-            }
-            onClick={() => setShowModalFilter(true)}
-          >
-            Sort
           </Button>
         </Stack>
       </Stack>
@@ -172,28 +86,7 @@ const ListCompany: React.FC = () => {
           </TableContainer>
         </Stack>
       </Render>
-      {/* <Divider sx={{my: 4}} /> */}
-      {/* 
-      // TODO: will add after being wired
-      <Pagination
-        page={propsRequest.page ?? 1}
-        count={dataVolunteerRequest?.metaData.totalPages ?? 1}
-        onNext={onNextPage}
-        onPrev={onPrevPage}
-        onChange={onChangePage}
-      /> 
-      */}
-
-      {/* <ModalFilter
-        show={showModalFilter}
-        onClose={() => setShowModalFilter(false)}
-        onApply={handleFilter}
-        title='Sort'
-      />
-      <ModalAddFrontliners
-        show={showModalAddFrontliner}
-        onClose={() => setShowModalAddFrontliner(false)}
-      /> */}
+      <ModalAddCompany show={showModalAddCompany} onClose={() => setShowModalAddCompany(false)} />
     </Box>
   );
 };
