@@ -74,20 +74,6 @@ function App() {
                   path='volunteer/:sessionId/assignment'
                   element={<VolunteerOrganisationPage />}
                 />
-                {/* <Route path='breadrun' element={<Outlet />}>
-                  <Route path='' element={<BreadRunPage />}>
-                    <Route path='' element={<Overview isRegistered />} />
-                    <Route path='routes' element={<DeliveryRoutes />} />
-                    <Route path='delivery' element={<DeliveryOrders />} />
-                    <Route path='history' element={<History />} />
-                  </Route>
-                  <Route path='routedetail' element={<Outlet />}>
-                    <Route path=':id' element={<RouteDetail />} />
-                  </Route>
-                  <Route path='deliverydetail' element={<Outlet />}>
-                    <Route path=':id' element={<DeliveryDetail />} />
-                  </Route>
-                </Route> */}
                 <Route path='profile' element={<Profile />} />
               </Route>
             </Route>
