@@ -25,12 +25,15 @@ import ModalAddOutlets from './ModalAddOutlets';
 import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
 import {useOutletsHook} from '@/hooks/use-outlets.hook';
+import Select from '@/components/Select';
+import {useCompanyHook} from '@/hooks/use-company.hook';
 
 const ListOutlets: React.FC = () => {
-  const companyId = import.meta.env.VITE_COMPANY_ID;
+  const {getCompanyQuery} = useCompanyHook();
+  const {data: dataListCompany} = getCompanyQuery();
+  const [selectedCompany, setSelectedCompany] = useState<string | undefined>(undefined);
   const [showModalFilter, setShowModalFilter] = useState(false);
   const [showModalAddOutlets, setShowModalAddOutlets] = useState(false);
-  const [tmpSearchKeyword, setTmpSearchKeyword] = useState('');
   const [propsRequest, setPropsRequest] = React.useState<VrRequestType>({
     page: 1,
     limit: 5,
@@ -44,14 +47,7 @@ const ListOutlets: React.FC = () => {
     data: dataOutletsCompany,
     isPreviousData,
     isLoading: isLoadingFrontlinerCompany,
-  } = getOutletsCompanyQuery({companyId: companyId});
-
-  // useEffect(() => {
-  //   const timeoutSearch = setTimeout(() => {
-  //     setPropsRequest((prevState) => ({...prevState, search: tmpSearchKeyword}));
-  //   }, 250);
-  //   return () => clearTimeout(timeoutSearch);
-  // }, [tmpSearchKeyword]);
+  } = getOutletsCompanyQuery({companyId: selectedCompany || ''});
 
   const onNextPage = () => {
     setPropsRequest((prevState: VrRequestType) => {
@@ -87,38 +83,35 @@ const ListOutlets: React.FC = () => {
         justifyContent={'space-between'}
         alignItems={{xs: 'flex-start', md: 'center'}}
       >
-        <Stack direction='column' spacing={2}>
-          {/* {isLoadingVolunteerRequest ? (
-            <CircularProgress color={'primary'} />
-          ) : (
-            <Typography color='text.secondary' mb={{xs: 2, md: 0}}>
-              Showing{' '}
-              {(dataVolunteerRequest?.metaData.totalPages || 0) <=
-              (dataVolunteerRequest?.metaData.currentPage || 0)
-                ? dataVolunteerRequest?.metaData.totalRecords
-                : (dataVolunteerRequest?.metaData.currentPage || 0) *
-                  (propsRequest.limit || 0)}{' '}
-              of {dataVolunteerRequest?.metaData.totalRecords || 'N/A'} total
-            </Typography>
-          )} */}
+        <Stack direction='row' spacing={2} sx={{width: '50vw'}} alignItems={'center'}>
+          <Select
+            label='Company'
+            sx={{width: '250px'}}
+            onChange={(event) => {
+              setSelectedCompany(event.target.value as string);
+            }}
+            value={selectedCompany}
+            options={
+              dataListCompany !== undefined
+                ? dataListCompany.data.map((item, index) => {
+                    let tmpData = {
+                      label: item.name,
+                      value: item.id,
+                    };
+                    return tmpData;
+                  })
+                : []
+            }
+          />
           <Button
             onClick={() => setShowModalAddOutlets(true)}
             startIcon={<AddBusiness color='secondary' sx={{fill: 'inherit'}} />}
+            sx={{
+              minHeight: '55px',
+            }}
+            disabled={selectedCompany === undefined}
           >
             Add Outlets
-          </Button>
-        </Stack>
-        <Stack direction='row' spacing={2}>
-          <InputSearch onChange={(e) => setTmpSearchKeyword(e.target.value)} />
-          <Button
-            variant='outlined'
-            color='inherit'
-            startIcon={
-              <FeatherIcon icon='filter' sx={{'& svg': {transform: 'scale(.8) translateY(3px)'}}} />
-            }
-            onClick={() => setShowModalFilter(true)}
-          >
-            Sort
           </Button>
         </Stack>
       </Stack>

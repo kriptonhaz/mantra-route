@@ -1,17 +1,15 @@
 import DashboardLayout from '@/layouts/dashboard.layout';
 import * as React from 'react';
-import ListOutlets from './ui/ListOutlets';
+import ListOutlets from './ListOutlets';
 
-const FrontlinersUI: React.FC = () => {
+const OutletsUI: React.FC = () => {
   return (
     <DashboardLayout title='Outlets' subtitle='The Thrill of the Find, Without the High Price'>
       <DashboardLayout.Content>
         <ListOutlets />
       </DashboardLayout.Content>
-      {/* <DashboardLayout.Activity>
-      </DashboardLayout.Activity> */}
     </DashboardLayout>
   );
 };
 
-export default FrontlinersUI;
+export default OutletsUI;

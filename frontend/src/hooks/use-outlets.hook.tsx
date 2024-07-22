@@ -16,6 +16,7 @@ export const useOutletsHook = () => {
     return useQuery({
       queryKey: ['outlets', 'list', params.companyId],
       queryFn: () => getOutletsCompany(params),
+      enabled: !!params.companyId,
     });
   };
 
