@@ -27,27 +27,24 @@ import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
 import {useOutletsHook} from '@/hooks/use-outlets.hook';
 import Select from '@/components/Select';
 import {useCompanyHook} from '@/hooks/use-company.hook';
+import {IOutletRequestType} from '@/interface/outlets.interface';
 
 const ListOutlets: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
   const {data: dataListCompany} = getCompanyQuery();
-  const [selectedCompany, setSelectedCompany] = useState<string | undefined>(undefined);
   const [showModalFilter, setShowModalFilter] = useState(false);
   const [showModalAddOutlets, setShowModalAddOutlets] = useState(false);
-  const [propsRequest, setPropsRequest] = React.useState<VrRequestType>({
+  const [propsRequest, setPropsRequest] = React.useState<IOutletRequestType>({
     page: 1,
-    limit: 5,
-    search: '',
-    status: '',
-    name: '',
-    date: '',
+    per_page: 10,
+    companyId: '',
   });
   const {getOutletsCompanyQuery} = useOutletsHook();
   const {
     data: dataOutletsCompany,
     isPreviousData,
     isLoading: isLoadingFrontlinerCompany,
-  } = getOutletsCompanyQuery({companyId: selectedCompany || ''});
+  } = getOutletsCompanyQuery(propsRequest);
 
   const onNextPage = () => {
     setPropsRequest((prevState: VrRequestType) => {
@@ -88,9 +85,9 @@ const ListOutlets: React.FC = () => {
             label='Company'
             sx={{width: '250px'}}
             onChange={(event) => {
-              setSelectedCompany(event.target.value as string);
+              setPropsRequest({...propsRequest, companyId: event.target.value as string});
             }}
-            value={selectedCompany}
+            value={propsRequest.companyId}
             options={
               dataListCompany !== undefined
                 ? dataListCompany.data.map((item, index) => {
@@ -109,7 +106,7 @@ const ListOutlets: React.FC = () => {
             sx={{
               minHeight: '55px',
             }}
-            disabled={selectedCompany === undefined}
+            disabled={propsRequest.companyId === undefined}
           >
             Add Outlets
           </Button>
