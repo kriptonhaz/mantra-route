@@ -77,7 +77,6 @@ const ListFrontliners: React.FC = () => {
           <Button
             onClick={() => setShowModalAddFrontliner(true)}
             startIcon={<FeatherIcon icon='user-plus' />}
-            fullWidth
             sx={{
               minHeight: '55px',
             }}
