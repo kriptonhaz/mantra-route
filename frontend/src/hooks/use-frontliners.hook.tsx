@@ -20,6 +20,7 @@ export const useFrontlinersHook = () => {
     return useQuery({
       queryKey: ['frontliner', 'list', params.companyId],
       queryFn: () => getFrontlinerCompany(params),
+      enabled: !!params.companyId,
     });
   };
 

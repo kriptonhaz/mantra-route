@@ -4,15 +4,14 @@ import {
   FrontlinerResponseType,
   IFrontliner,
 } from '@/interface/frontliners.interface';
-import MantraApi from './base-mantra-route';
+import API from './base';
 
 export const getFrontlinerCompany = async (
   params?: FrontlineRequestType,
 ): Promise<FrontlinerResponseType> => {
-  const {data} = await MantraApi().request<FrontlinerResponseType>({
+  const {data} = await API().request<FrontlinerResponseType>({
     url: `${import.meta.env.VITE_BASE_API_VERSION}/frontline/company/${params?.companyId}`,
     method: 'GET',
-    params: params,
   });
 
   return data;
@@ -21,7 +20,7 @@ export const getFrontlinerCompany = async (
 export const postAddFrontlineCompany = async (
   payload?: IFrontliner[],
 ): Promise<FrontlinerAddResponseType> => {
-  const {data} = await MantraApi().request<FrontlinerAddResponseType>({
+  const {data} = await API().request<FrontlinerAddResponseType>({
     url: `${import.meta.env.VITE_BASE_API_VERSION}/frontline/bulk`,
     method: 'POST',
     data: payload,

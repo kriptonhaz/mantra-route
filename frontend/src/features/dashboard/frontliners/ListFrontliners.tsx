@@ -1,13 +1,9 @@
 import FeatherIcon from '@/components/FeatherIcon/FeatherIcon';
-import InputSearch from '@/components/InputSearch';
-import Pagination from '@/components/Pagination/Pagination';
 import {
   Box,
   Button,
-  CircularProgress,
   Divider,
   Stack,
-  Typography,
   Paper,
   Table,
   TableBody,
@@ -17,19 +13,22 @@ import {
   TableRow,
 } from '@mui/material';
 import {NotePencil, Trash, Eye} from 'phosphor-react';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import ModalFilter from './ModalFilter';
 import {VrRequestType} from '@/interface/volunteerRequest.interface';
 import ModalAddFrontliners from './ModalAddFrontliners';
 import {useFrontlinersHook} from '@/hooks/use-frontliners.hook';
 import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
+import Select from '@/components/Select';
+import {useCompanyHook} from '@/hooks/use-company.hook';
 
 const ListFrontliners: React.FC = () => {
-  const companyId = import.meta.env.VITE_COMPANY_ID;
+  const {getCompanyQuery} = useCompanyHook();
+  const {data: dataListCompany} = getCompanyQuery();
   const [showModalFilter, setShowModalFilter] = useState(false);
   const [showModalAddFrontliner, setShowModalAddFrontliner] = useState(false);
-  const [tmpSearchKeyword, setTmpSearchKeyword] = useState('');
+  const [selectedCompany, setSelectedCompany] = useState<string | undefined>(undefined);
   const [propsRequest, setPropsRequest] = React.useState<VrRequestType>({
     page: 1,
     limit: 5,
@@ -39,58 +38,9 @@ const ListFrontliners: React.FC = () => {
     date: '',
   });
   const {getFrontlinerCompanyQuery} = useFrontlinersHook();
-  const {
-    data: dataFrontlinerCompany,
-    isPreviousData,
-    isLoading: isLoadingFrontlinerCompany,
-  } = getFrontlinerCompanyQuery({companyId: companyId});
-  // const {listVolunteerRequest} = useVolunteerRequestHook();
-  // const {
-  //   data: dataVolunteerRequest,
-  //   isPreviousData,
-  //   isLoading: isLoadingVolunteerRequest,
-  // } = listVolunteerRequest(propsRequest);
-
-  // useEffect(() => {
-  //   if (
-  //     !isPreviousData &&
-  //     (dataVolunteerRequest?.metaData.totalPages || 0) <= (propsRequest.page || 0)
-  //   ) {
-  //     queryClient.prefetchQuery({
-  //       queryKey: ['listVolunteerRequest', propsRequest],
-  //       queryFn: () => getListVolunteerRequest(propsRequest),
-  //     });
-  //   }
-  // }, [dataVolunteerRequest, queryClient, isPreviousData, propsRequest]);
-
-  useEffect(() => {
-    const timeoutSearch = setTimeout(() => {
-      setPropsRequest((prevState) => ({...prevState, search: tmpSearchKeyword}));
-    }, 250);
-    return () => clearTimeout(timeoutSearch);
-  }, [tmpSearchKeyword]);
-
-  const onNextPage = () => {
-    setPropsRequest((prevState: VrRequestType) => {
-      return {
-        ...propsRequest,
-        page: (prevState.page ?? 1) + 1,
-      };
-    });
-  };
-
-  const onPrevPage = () => {
-    setPropsRequest((prevState: VrRequestType) => {
-      return {
-        ...propsRequest,
-        page: (prevState.page ?? 1) - 1,
-      };
-    });
-  };
-
-  const onChangePage = (val: number) => {
-    setPropsRequest({...propsRequest, page: val});
-  };
+  const {data: dataFrontlinerCompany} = getFrontlinerCompanyQuery({
+    companyId: selectedCompany || '',
+  });
 
   const handleFilter = (data: Partial<VrRequestType>) => {
     setPropsRequest((prev) => ({...prev, ...data}));
@@ -104,38 +54,36 @@ const ListFrontliners: React.FC = () => {
         justifyContent={'space-between'}
         alignItems={{xs: 'flex-start', md: 'center'}}
       >
-        <Stack direction='column' spacing={2}>
-          {/* {isLoadingVolunteerRequest ? (
-            <CircularProgress color={'primary'} />
-          ) : (
-            <Typography color='text.secondary' mb={{xs: 2, md: 0}}>
-              Showing{' '}
-              {(dataVolunteerRequest?.metaData.totalPages || 0) <=
-              (dataVolunteerRequest?.metaData.currentPage || 0)
-                ? dataVolunteerRequest?.metaData.totalRecords
-                : (dataVolunteerRequest?.metaData.currentPage || 0) *
-                  (propsRequest.limit || 0)}{' '}
-              of {dataVolunteerRequest?.metaData.totalRecords || 'N/A'} total
-            </Typography>
-          )} */}
+        <Stack direction='row' spacing={5} sx={{width: '50vw'}} alignItems={'center'}>
+          <Select
+            label='Company'
+            sx={{width: '250px'}}
+            onChange={(event) => {
+              setSelectedCompany(event.target.value as string);
+            }}
+            value={selectedCompany}
+            options={
+              dataListCompany !== undefined
+                ? dataListCompany.data.map((item, index) => {
+                    let tmpData = {
+                      label: item.name,
+                      value: item.id,
+                    };
+                    return tmpData;
+                  })
+                : []
+            }
+          />
           <Button
             onClick={() => setShowModalAddFrontliner(true)}
             startIcon={<FeatherIcon icon='user-plus' />}
+            fullWidth
+            sx={{
+              minHeight: '55px',
+            }}
+            disabled={selectedCompany === undefined}
           >
             Add Frontliners
-          </Button>
-        </Stack>
-        <Stack direction='row' spacing={2}>
-          <InputSearch onChange={(e) => setTmpSearchKeyword(e.target.value)} />
-          <Button
-            variant='outlined'
-            color='inherit'
-            startIcon={
-              <FeatherIcon icon='filter' sx={{'& svg': {transform: 'scale(.8) translateY(3px)'}}} />
-            }
-            onClick={() => setShowModalFilter(true)}
-          >
-            Sort
           </Button>
         </Stack>
       </Stack>
@@ -186,18 +134,6 @@ const ListFrontliners: React.FC = () => {
           </TableContainer>
         </Stack>
       </Render>
-      {/* <Divider sx={{my: 4}} /> */}
-      {/* 
-      // TODO: will add after being wired
-      <Pagination
-        page={propsRequest.page ?? 1}
-        count={dataVolunteerRequest?.metaData.totalPages ?? 1}
-        onNext={onNextPage}
-        onPrev={onPrevPage}
-        onChange={onChangePage}
-      /> 
-      */}
-
       <ModalFilter
         show={showModalFilter}
         onClose={() => setShowModalFilter(false)}

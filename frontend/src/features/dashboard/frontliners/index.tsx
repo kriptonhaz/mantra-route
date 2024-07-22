@@ -1,6 +1,6 @@
 import DashboardLayout from '@/layouts/dashboard.layout';
 import * as React from 'react';
-import ListFrontliners from './ui/ListFrontliners';
+import ListFrontliners from './ListFrontliners';
 
 const FrontlinersUI: React.FC = () => {
   return (
@@ -8,8 +8,6 @@ const FrontlinersUI: React.FC = () => {
       <DashboardLayout.Content>
         <ListFrontliners />
       </DashboardLayout.Content>
-      {/* <DashboardLayout.Activity>
-      </DashboardLayout.Activity> */}
     </DashboardLayout>
   );
 };
