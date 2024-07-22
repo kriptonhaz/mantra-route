@@ -25,13 +25,13 @@ export interface IOutletsCsv {
   Longitude: string;
 }
 
-export type OutletRequestType = {
+export type IOutletRequestType = {
   companyId: string;
   page?: number;
   per_page?: number;
 };
 
-export type OutletResponseType = {
+export type IOutletResponseType = {
   code: number;
   data: IOutlets[];
   message: string;
@@ -39,7 +39,7 @@ export type OutletResponseType = {
   status: number;
 };
 
-export type OutletAddResponseType = {
+export type IOutletAddResponseType = {
   code: number;
   data: IOutlets[];
   message: string;

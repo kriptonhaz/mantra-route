@@ -5,14 +5,14 @@ import useErrorStore from '@/store/use-error.store';
 import {queryClient} from '@/service/QueryClient';
 import useVolunteerStore from '@/store/use-volunteer.store';
 import {getOutletsCompany, postAddOutletsCompany} from '@/api/outlets.api';
-import {IOutlets, OutletAddResponseType, OutletRequestType} from '@/interface/outlets.interface';
+import {IOutlets, IOutletAddResponseType, IOutletRequestType} from '@/interface/outlets.interface';
 
 export const useOutletsHook = () => {
   const token = useTokenStore((state) => state.accessToken);
   const errorStore = useErrorStore((state) => state);
   const volunteerStore = useVolunteerStore((state) => state);
 
-  const getOutletsCompanyQuery = (params: OutletRequestType) => {
+  const getOutletsCompanyQuery = (params: IOutletRequestType) => {
     return useQuery({
       queryKey: ['outlets', 'list', params.companyId],
       queryFn: () => getOutletsCompany(params),
@@ -25,7 +25,7 @@ export const useOutletsHook = () => {
     onError,
   }: {
     onSuccess?:
-      | ((data: OutletAddResponseType, variables: IOutlets[], context: unknown) => unknown)
+      | ((data: IOutletAddResponseType, variables: IOutlets[], context: unknown) => unknown)
       | undefined;
     onError?: ((error: Error, variables: IOutlets[], context: unknown) => unknown) | undefined;
   }) =>
