@@ -3,6 +3,7 @@ import {
   IOutletAddResponseType,
   IOutletRequestType,
   IOutletResponseType,
+  IOutletDeleteResponseType,
 } from '@/interface/outlets.interface';
 import API from './base';
 
@@ -25,6 +26,17 @@ export const postAddOutletsCompany = async (
     url: `${import.meta.env.VITE_BASE_API_VERSION}/outlet/bulk`,
     method: 'POST',
     data: payload,
+  });
+
+  return data;
+};
+
+export const deleteOutletsCompany = async (
+  outledId: string,
+): Promise<IOutletDeleteResponseType> => {
+  const {data} = await API().request<IOutletDeleteResponseType>({
+    url: `${import.meta.env.VITE_BASE_API_VERSION}/outlet/${outledId}`,
+    method: 'DELETE',
   });
 
   return data;

@@ -1,17 +1,16 @@
 import {useMutation, useQuery} from '@tanstack/react-query';
 import useTokenStore from '@/store/use-token.store';
-import {AxiosError} from 'axios';
 import useErrorStore from '@/store/use-error.store';
-import {queryClient} from '@/service/QueryClient';
 import useVolunteerStore from '@/store/use-volunteer.store';
-import {getOutletsCompany, postAddOutletsCompany} from '@/api/outlets.api';
-import {IOutlets, IOutletAddResponseType, IOutletRequestType} from '@/interface/outlets.interface';
+import {deleteOutletsCompany, getOutletsCompany, postAddOutletsCompany} from '@/api/outlets.api';
+import {
+  IOutlets,
+  IOutletAddResponseType,
+  IOutletRequestType,
+  IOutletDeleteResponseType,
+} from '@/interface/outlets.interface';
 
 export const useOutletsHook = () => {
-  const token = useTokenStore((state) => state.accessToken);
-  const errorStore = useErrorStore((state) => state);
-  const volunteerStore = useVolunteerStore((state) => state);
-
   const getOutletsCompanyQuery = (params: IOutletRequestType) => {
     return useQuery({
       queryKey: ['outlets', 'list', params.companyId],
@@ -46,9 +45,33 @@ export const useOutletsHook = () => {
       },
     });
 
+  const deleteOutletsCompanyMutation = ({
+    onSuccess,
+    onError,
+  }: {
+    onSuccess?:
+      | ((data: IOutletDeleteResponseType, variables: string, context: unknown) => unknown)
+      | undefined;
+    onError?: ((error: Error, variables: string, context: unknown) => unknown) | undefined;
+  }) =>
+    useMutation({
+      mutationKey: ['outlets', 'create'],
+      mutationFn: deleteOutletsCompany,
+      onSuccess: (data, variables, context) => {
+        if (onSuccess) {
+          return onSuccess(data, variables, context);
+        }
+      },
+      onError: (err, variables, context) => {
+        if (onError) {
+          return onError(err as Error, variables, context);
+        }
+      },
+    });
+
   return {
-    volunteerStore,
     getOutletsCompanyQuery,
     postAddOutletsCompanyMutation,
+    deleteOutletsCompanyMutation,
   };
 };

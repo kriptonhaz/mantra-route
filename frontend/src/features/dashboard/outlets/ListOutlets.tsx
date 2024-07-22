@@ -4,10 +4,8 @@ import Pagination from '@/components/Pagination/Pagination';
 import {
   Box,
   Button,
-  CircularProgress,
   Divider,
   Stack,
-  Typography,
   Paper,
   Table,
   TableBody,
@@ -28,9 +26,12 @@ import {useOutletsHook} from '@/hooks/use-outlets.hook';
 import Select from '@/components/Select';
 import {useCompanyHook} from '@/hooks/use-company.hook';
 import {IOutletRequestType} from '@/interface/outlets.interface';
+import ModalConfirm, {IModalConfirmProps} from '@/components/Modal/ui/ModalConfirm';
+import {queryClient} from '@/service/QueryClient';
 
 const ListOutlets: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
+  const {getOutletsCompanyQuery, deleteOutletsCompanyMutation} = useOutletsHook();
   const {data: dataListCompany} = getCompanyQuery();
   const [showModalFilter, setShowModalFilter] = useState(false);
   const [showModalAddOutlets, setShowModalAddOutlets] = useState(false);
@@ -39,12 +40,36 @@ const ListOutlets: React.FC = () => {
     per_page: 10,
     companyId: '',
   });
-  const {getOutletsCompanyQuery} = useOutletsHook();
+  const [modalConfirm, setModalConfirm] = useState<IModalConfirmProps>({
+    show: false,
+    title: '',
+    description: '',
+    color: 'warning',
+    onClose: () => handleCloseConfirm(),
+    onConfirm: () => null,
+  });
   const {
     data: dataOutletsCompany,
     isPreviousData,
     isLoading: isLoadingFrontlinerCompany,
   } = getOutletsCompanyQuery(propsRequest);
+
+  const mutationDeleteOutlet = deleteOutletsCompanyMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries(['outlets', 'list', propsRequest.companyId]);
+      handleCloseConfirm();
+    },
+    onError(err) {
+      console.log(err);
+    },
+  });
+
+  const handleCloseConfirm = () => {
+    setModalConfirm({
+      ...modalConfirm,
+      show: false,
+    });
+  };
 
   const onNextPage = () => {
     setPropsRequest((prevState: VrRequestType) => {
@@ -71,6 +96,18 @@ const ListOutlets: React.FC = () => {
   const handleFilter = (data: Partial<VrRequestType>) => {
     setPropsRequest((prev) => ({...prev, ...data}));
     setShowModalFilter(false);
+  };
+
+  const handleDelete = (outletId: string) => {
+    setModalConfirm({
+      ...modalConfirm,
+      title: 'Confirm Deletion',
+      description: 'Do you really want to delete this data?',
+      show: true,
+      onConfirm: () => {
+        mutationDeleteOutlet.mutate(outletId);
+      },
+    });
   };
 
   return (
@@ -147,7 +184,12 @@ const ListOutlets: React.FC = () => {
                           <Button data-shape='icon' variant='text' color='primary'>
                             <NotePencil size={22} weight='bold' />
                           </Button>
-                          <Button data-shape='icon' variant='text' color='error'>
+                          <Button
+                            data-shape='icon'
+                            variant='text'
+                            color='error'
+                            onClick={() => handleDelete(row.id)}
+                          >
                             <Trash size={22} weight='bold' />
                           </Button>
                         </Stack>
@@ -178,6 +220,14 @@ const ListOutlets: React.FC = () => {
         title='Sort'
       />
       <ModalAddOutlets show={showModalAddOutlets} onClose={() => setShowModalAddOutlets(false)} />
+      <ModalConfirm
+        show={modalConfirm.show}
+        title={modalConfirm.title}
+        description={modalConfirm.description}
+        color={modalConfirm.color}
+        onClose={modalConfirm.onClose}
+        onConfirm={modalConfirm.onConfirm}
+      />
     </Box>
   );
 };
