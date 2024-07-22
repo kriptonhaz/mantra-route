@@ -25,6 +25,7 @@ import Schedule from './routes/dashboard/schedule/page';
 import Upcoming from './routes/dashboard/upcoming/page';
 import VolunteerOrganisationPage from './routes/dashboard/frontliners/organisation';
 import Frontliners from './routes/dashboard/frontliners/page';
+import Company from './routes/dashboard/company/page';
 import {Forgot, ResetPassword} from './routes/forget/page';
 import Login from './routes/login/page';
 import {queryClient} from './service/QueryClient';
@@ -60,6 +61,7 @@ function App() {
               <Route path='/dashboard' element={<DashboardPage />}>
                 <Route path='' element={<Navigate to='/dashboard/home' replace />} />
                 <Route path='home' element={<Home />} />
+                <Route path='company' element={<Company />} />
                 <Route path='schedule' element={<Schedule />} />
                 <Route path='calendar' element={<Calendar />} />
                 <Route path='upload' element={<Schedule />} />

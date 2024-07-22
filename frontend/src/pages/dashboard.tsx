@@ -4,20 +4,16 @@ import {ProfileDataResponseType} from '../interface/profileInfo.interface';
 import {
   HomeOutlined,
   CalendarMonthOutlined,
-  PersonOutline,
   MenuOutlined,
-  NotificationsNone,
   TwoWheeler,
   Store,
+  Apartment,
 } from '@mui/icons-material';
 import {useEffect, useState} from 'react';
-import jwt_decode from 'jwt-decode';
 import {AppDrawer} from '../components/AppDrawer/AppDrawer';
 import {InnerDrawer} from '../components/AppDrawer/InnerDrawer';
 import logoMantraWhite from '@/assets/img/logo-mantra-white.png';
 import {neutral} from '@/themes/ts/colors';
-import useTokenStore from '@/store/use-token.store';
-import {JwtTokenType} from '@/interface/auth.interface';
 
 export interface DashboardPageProps {
   isLoading?: boolean;
@@ -32,9 +28,6 @@ interface MenuItemsType {
 
 export const DashboardPage = (props: DashboardPageProps) => {
   const location = useLocation();
-  // TODO: will activate after it's being wired
-  // const accessToken = useTokenStore((state) => state.accessToken);
-  // const decodeToken = jwt_decode(accessToken as string) as JwtTokenType;
   const {isLoading, profileData} = props;
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -42,9 +35,9 @@ export const DashboardPage = (props: DashboardPageProps) => {
   const [menuItems, setMenuItems] = useState<MenuItemsType[]>([
     {label: 'Home', to: '/dashboard/home', icon: <HomeOutlined sx={{fill: 'inherit'}} />},
     {
-      label: 'Schedule',
-      to: '/dashboard/schedule',
-      icon: <CalendarMonthOutlined sx={{fill: 'inherit'}} />,
+      label: 'Company',
+      to: '/dashboard/company',
+      icon: <Apartment color='secondary' sx={{fill: 'inherit'}} />,
     },
     {
       label: 'Frontliners',
@@ -57,14 +50,9 @@ export const DashboardPage = (props: DashboardPageProps) => {
       icon: <Store color='secondary' sx={{fill: 'inherit'}} />,
     },
     {
-      label: 'Profile',
-      to: '/dashboard/profile',
-      icon: <PersonOutline color='secondary' sx={{fill: 'inherit'}} />,
-    },
-    {
-      label: 'Notification',
-      to: '/dashboard/notification',
-      icon: <NotificationsNone color='secondary' sx={{fill: 'inherit'}} />,
+      label: 'Schedule',
+      to: '/dashboard/schedule',
+      icon: <CalendarMonthOutlined sx={{fill: 'inherit'}} />,
     },
   ]);
 
