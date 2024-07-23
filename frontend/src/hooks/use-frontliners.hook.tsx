@@ -1,21 +1,19 @@
 import {useMutation, useQuery} from '@tanstack/react-query';
-import useTokenStore from '@/store/use-token.store';
-import {AxiosError} from 'axios';
-import useErrorStore from '@/store/use-error.store';
-import {queryClient} from '@/service/QueryClient';
-import useVolunteerStore from '@/store/use-volunteer.store';
-import {getFrontlinerCompany, postAddFrontlineCompany} from '@/api/frontliners.api';
 import {
+  getFrontlinerCompany,
+  postBulkAddFrontlineCompany,
+  postSingleAddFrontlineCompany,
+} from '@/api/frontliners.api';
+import {
+  AddBulkFrontlinePayloadType,
   FrontlineRequestType,
   FrontlinerAddResponseType,
+  IAddSingleFrontlineResponse,
+  IFormSingleAddFrontliner,
   IFrontliner,
 } from '@/interface/frontliners.interface';
 
 export const useFrontlinersHook = () => {
-  const token = useTokenStore((state) => state.accessToken);
-  const errorStore = useErrorStore((state) => state);
-  const volunteerStore = useVolunteerStore((state) => state);
-
   const getFrontlinerCompanyQuery = (params: FrontlineRequestType) => {
     return useQuery({
       queryKey: ['frontliner', 'list', params.companyId],
@@ -24,18 +22,54 @@ export const useFrontlinersHook = () => {
     });
   };
 
-  const postAddFrontlinerCompanyMutation = ({
+  const postAddFrontlinerSingleCompanyMutation = ({
     onSuccess,
     onError,
   }: {
     onSuccess?:
-      | ((data: FrontlinerAddResponseType, variables: IFrontliner[], context: unknown) => unknown)
+      | ((
+          data: IAddSingleFrontlineResponse,
+          variables: IFormSingleAddFrontliner,
+          context: unknown,
+        ) => unknown)
       | undefined;
-    onError?: ((error: Error, variables: IFrontliner[], context: unknown) => unknown) | undefined;
+    onError?:
+      | ((error: Error, variables: IFormSingleAddFrontliner, context: unknown) => unknown)
+      | undefined;
   }) =>
     useMutation({
-      mutationKey: ['helpdesk', 'ticket', 'create'],
-      mutationFn: postAddFrontlineCompany,
+      mutationKey: ['frontliner', 'add', 'single'],
+      mutationFn: postSingleAddFrontlineCompany,
+      onSuccess: (data, variables, context) => {
+        if (onSuccess) {
+          return onSuccess(data, variables, context);
+        }
+      },
+      onError: (err, variables, context) => {
+        if (onError) {
+          return onError(err as Error, variables, context);
+        }
+      },
+    });
+
+  const postAddFrontlinerBulkCompanyMutation = ({
+    onSuccess,
+    onError,
+  }: {
+    onSuccess?:
+      | ((
+          data: FrontlinerAddResponseType,
+          variables: AddBulkFrontlinePayloadType,
+          context: unknown,
+        ) => unknown)
+      | undefined;
+    onError?:
+      | ((error: Error, variables: AddBulkFrontlinePayloadType, context: unknown) => unknown)
+      | undefined;
+  }) =>
+    useMutation({
+      mutationKey: ['frontliner', 'add', 'bulk'],
+      mutationFn: postBulkAddFrontlineCompany,
       onSuccess: (data, variables, context) => {
         if (onSuccess) {
           // @ts-ignore
@@ -51,8 +85,8 @@ export const useFrontlinersHook = () => {
     });
 
   return {
-    volunteerStore,
     getFrontlinerCompanyQuery,
-    postAddFrontlinerCompanyMutation,
+    postAddFrontlinerSingleCompanyMutation,
+    postAddFrontlinerBulkCompanyMutation,
   };
 };

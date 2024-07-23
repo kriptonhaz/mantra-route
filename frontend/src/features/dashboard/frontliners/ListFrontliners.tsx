@@ -141,6 +141,7 @@ const ListFrontliners: React.FC = () => {
       />
       <ModalAddFrontliners
         show={showModalAddFrontliner}
+        companyId={selectedCompany || ''}
         onClose={() => setShowModalAddFrontliner(false)}
       />
     </Box>

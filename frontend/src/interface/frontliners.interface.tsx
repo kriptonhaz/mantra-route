@@ -1,5 +1,29 @@
 import {MetaPaginationResponseType} from './base.interface';
 
+export enum ModeAddEnum {
+  'single',
+  'bulk',
+}
+export type TypeModeAdd = keyof typeof ModeAddEnum;
+
+export interface IFormSingleAddFrontliner {
+  frontliner_id: string;
+  name: string;
+  company: string;
+  position: string;
+  id_project: string;
+  latitude: number;
+  longitude: number;
+  max_visit_per_day: number;
+  off_day: string;
+  channel_outlet: string;
+  max_travel_time: number;
+  max_duration_visit: number;
+}
+export interface IFormAddFrontliner extends IFormSingleAddFrontliner {
+  modeAdd: TypeModeAdd;
+  csvFile: File;
+}
 export interface IFrontliner {
   frontliner_id: string;
   name: string;
@@ -43,6 +67,19 @@ export type FrontlinerResponseType = {
   status: number;
 };
 
+export interface IAddSingleFrontlineResponse {
+  code: number;
+  data: IFormSingleAddFrontliner & {
+    create_date: string;
+    delete_date: string;
+    is_active: number;
+    update_date: string;
+  };
+  message: string;
+  meta: number;
+  status: number;
+}
+
 export type FrontlinerAddResponseType = {
   code: number;
   data: IFrontliner[];
@@ -50,3 +87,5 @@ export type FrontlinerAddResponseType = {
   meta: number;
   status: number;
 };
+
+export type AddBulkFrontlinePayloadType = IFrontliner[];
