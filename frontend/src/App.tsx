@@ -5,25 +5,11 @@ import {BrowserRouter, Navigate, Outlet, Route, Routes} from 'react-router-dom';
 import './App.css';
 import LoadingPage from './components/LoadingPage/LoadingPage';
 import {ModalError} from './components/Modal';
-import {ActivityDetail} from './pages/Activity/ActivityDetail';
-import {BreadRunPage} from './pages/breadrun';
-import {DeliveryOrders} from './pages/breadrun/Delivery';
-import {DeliveryDetail} from './pages/breadrun/Detail/DeliveryDetail';
-import {RouteDetail} from './pages/breadrun/Detail/RouteDetail';
-import {History} from './pages/breadrun/History';
-import {Overview} from './pages/breadrun/Overview';
-import {DeliveryRoutes} from './pages/breadrun/Routes';
 import {DashboardPage} from './pages/dashboard';
 import Error404 from './pages/error/404';
 import {Error500} from './pages/error/500';
 import Outlets from './routes/dashboard/outlets/page';
-import Calendar from './routes/dashboard/calendar/page';
 import Home from './routes/dashboard/home/page';
-import Notification from './routes/dashboard/notification/page';
-import Profile from './routes/dashboard/profile/page';
-import Schedule from './routes/dashboard/schedule/page';
-import Upcoming from './routes/dashboard/upcoming/page';
-import VolunteerOrganisationPage from './routes/dashboard/frontliners/organisation';
 import Frontliners from './routes/dashboard/frontliners/page';
 import Company from './routes/dashboard/company/page';
 import {Forgot, ResetPassword} from './routes/forget/page';
@@ -62,19 +48,8 @@ function App() {
                 <Route path='' element={<Navigate to='/dashboard/home' replace />} />
                 <Route path='home' element={<Home />} />
                 <Route path='company' element={<Company />} />
-                <Route path='schedule' element={<Schedule />} />
-                <Route path='calendar' element={<Calendar />} />
-                <Route path='upload' element={<Schedule />} />
-                <Route path='upcoming' element={<Upcoming />} />
-                <Route path='upcoming/:idProgramme' element={<ActivityDetail />} />
                 <Route path='frontliners' element={<Frontliners />} />
                 <Route path='outlet' element={<Outlets />} />
-                <Route path='notification' element={<Notification />} />
-                <Route
-                  path='volunteer/:sessionId/assignment'
-                  element={<VolunteerOrganisationPage />}
-                />
-                <Route path='profile' element={<Profile />} />
               </Route>
             </Route>
             <Route path='/loading' element={<LoadingPage />} />

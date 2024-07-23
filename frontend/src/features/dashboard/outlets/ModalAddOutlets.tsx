@@ -57,6 +57,7 @@ const ModalAddOutlets: React.FC<IModalAddOutletsProps> = ({show, onClose}) => {
     Papa.parse(data.csvFile as File, {
       complete: (result) => {
         const csvData: IOutletsCsv[] = result.data as IOutletsCsv[];
+        // @ts-ignore
         const payload: IOutlets[] = csvData.map((item) => {
           return {
             outlet_id: item['Outlet ID'],

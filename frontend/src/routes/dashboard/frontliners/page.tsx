@@ -6,7 +6,7 @@ const FrontlinersPage = lazy(() =>
   delayLoading(import('@/pages/frontliners').then((module) => ({default: module.FrontlinersPage}))),
 );
 
-const Volunteer: React.FC = () => {
+const Frontliner: React.FC = () => {
   return (
     <Suspense fallback={<LoadingPortal />}>
       <FrontlinersPage />
@@ -14,4 +14,4 @@ const Volunteer: React.FC = () => {
   );
 };
 
-export default Volunteer;
+export default Frontliner;

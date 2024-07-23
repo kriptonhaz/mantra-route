@@ -14,8 +14,6 @@ import {
 } from '@mui/material';
 import {NotePencil, Trash, Eye} from 'phosphor-react';
 import React, {useState} from 'react';
-import ModalFilter from './ModalFilter';
-import {VrRequestType} from '@/interface/volunteerRequest.interface';
 import ModalAddFrontliners from './ModalAddFrontliners';
 import {useFrontlinersHook} from '@/hooks/use-frontliners.hook';
 import Render from '@/components/Render';
@@ -26,26 +24,12 @@ import {useCompanyHook} from '@/hooks/use-company.hook';
 const ListFrontliners: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
   const {data: dataListCompany} = getCompanyQuery();
-  const [showModalFilter, setShowModalFilter] = useState(false);
   const [showModalAddFrontliner, setShowModalAddFrontliner] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<string | undefined>(undefined);
-  const [propsRequest, setPropsRequest] = React.useState<VrRequestType>({
-    page: 1,
-    limit: 5,
-    search: '',
-    status: '',
-    name: '',
-    date: '',
-  });
   const {getFrontlinerCompanyQuery} = useFrontlinersHook();
   const {data: dataFrontlinerCompany} = getFrontlinerCompanyQuery({
     companyId: selectedCompany || '',
   });
-
-  const handleFilter = (data: Partial<VrRequestType>) => {
-    setPropsRequest((prev) => ({...prev, ...data}));
-    setShowModalFilter(false);
-  };
 
   return (
     <Box>
@@ -133,12 +117,6 @@ const ListFrontliners: React.FC = () => {
           </TableContainer>
         </Stack>
       </Render>
-      <ModalFilter
-        show={showModalFilter}
-        onClose={() => setShowModalFilter(false)}
-        onApply={handleFilter}
-        title='Sort'
-      />
       <ModalAddFrontliners
         show={showModalAddFrontliner}
         companyId={selectedCompany || ''}

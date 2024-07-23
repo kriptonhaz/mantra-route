@@ -1,7 +1,4 @@
 import {useMutation, useQuery} from '@tanstack/react-query';
-import useTokenStore from '@/store/use-token.store';
-import useErrorStore from '@/store/use-error.store';
-import useVolunteerStore from '@/store/use-volunteer.store';
 import {deleteOutletsCompany, getOutletsCompany, postAddOutletsCompany} from '@/api/outlets.api';
 import {
   IOutlets,

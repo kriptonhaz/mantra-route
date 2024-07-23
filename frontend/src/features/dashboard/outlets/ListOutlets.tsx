@@ -1,6 +1,3 @@
-import FeatherIcon from '@/components/FeatherIcon/FeatherIcon';
-import InputSearch from '@/components/InputSearch';
-import Pagination from '@/components/Pagination/Pagination';
 import {
   Box,
   Button,
@@ -17,8 +14,6 @@ import {
 import {AddBusiness} from '@mui/icons-material';
 import {NotePencil, Trash, Eye} from 'phosphor-react';
 import React, {useState} from 'react';
-import ModalFilter from './ModalFilter';
-import {VrRequestType} from '@/interface/volunteerRequest.interface';
 import ModalAddOutlets from './ModalAddOutlets';
 import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
@@ -33,7 +28,6 @@ const ListOutlets: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
   const {getOutletsCompanyQuery, deleteOutletsCompanyMutation} = useOutletsHook();
   const {data: dataListCompany} = getCompanyQuery();
-  const [showModalFilter, setShowModalFilter] = useState(false);
   const [showModalAddOutlets, setShowModalAddOutlets] = useState(false);
   const [propsRequest, setPropsRequest] = React.useState<IOutletRequestType>({
     page: 1,
@@ -69,33 +63,6 @@ const ListOutlets: React.FC = () => {
       ...modalConfirm,
       show: false,
     });
-  };
-
-  const onNextPage = () => {
-    setPropsRequest((prevState: VrRequestType) => {
-      return {
-        ...propsRequest,
-        page: (prevState.page ?? 1) + 1,
-      };
-    });
-  };
-
-  const onPrevPage = () => {
-    setPropsRequest((prevState: VrRequestType) => {
-      return {
-        ...propsRequest,
-        page: (prevState.page ?? 1) - 1,
-      };
-    });
-  };
-
-  const onChangePage = (val: number) => {
-    setPropsRequest({...propsRequest, page: val});
-  };
-
-  const handleFilter = (data: Partial<VrRequestType>) => {
-    setPropsRequest((prev) => ({...prev, ...data}));
-    setShowModalFilter(false);
   };
 
   const handleDelete = (outletId: string) => {
@@ -201,24 +168,6 @@ const ListOutlets: React.FC = () => {
           </TableContainer>
         </Stack>
       </Render>
-      {/* <Divider sx={{my: 4}} /> */}
-      {/* 
-      // TODO: will add after being wired
-      <Pagination
-        page={propsRequest.page ?? 1}
-        count={dataVolunteerRequest?.metaData.totalPages ?? 1}
-        onNext={onNextPage}
-        onPrev={onPrevPage}
-        onChange={onChangePage}
-      /> 
-      */}
-
-      <ModalFilter
-        show={showModalFilter}
-        onClose={() => setShowModalFilter(false)}
-        onApply={handleFilter}
-        title='Sort'
-      />
       <ModalAddOutlets show={showModalAddOutlets} onClose={() => setShowModalAddOutlets(false)} />
       <ModalConfirm
         show={modalConfirm.show}
