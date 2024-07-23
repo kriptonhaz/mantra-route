@@ -27,14 +27,14 @@ export interface IFormAddFrontliner extends IFormSingleAddFrontliner {
 export interface IFrontliner {
   frontliner_id: string;
   name: string;
-  company: string;
+  // company: string;
   position: string;
   id_project: string;
   latitude: number;
   longitude: number;
   max_visit_per_day: number;
   off_day: string;
-  channel_outlet: string;
+  // channel_outlet: string;
   max_travel_time: number;
   max_duration_visit: number;
 }
@@ -59,9 +59,17 @@ export type FrontlineRequestType = {
   per_page?: number;
 };
 
+export interface IFrontlinerResponseData extends IFrontliner {
+  id: string;
+  create_date: string;
+  delete_date: string;
+  is_active: number;
+  update_date: string;
+}
+
 export type FrontlinerResponseType = {
   code: number;
-  data: IFrontliner[];
+  data: IFrontlinerResponseData[];
   message: string;
   meta: MetaPaginationResponseType;
   status: number;
@@ -89,3 +97,11 @@ export type FrontlinerAddResponseType = {
 };
 
 export type AddBulkFrontlinePayloadType = IFrontliner[];
+
+export interface IFrontlinerDeleteResponse {
+  code: number;
+  data: null;
+  message: string;
+  meta: number;
+  status: number;
+}

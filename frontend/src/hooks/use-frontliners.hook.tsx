@@ -1,5 +1,6 @@
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {
+  deleteFrontliner,
   getFrontlinerCompany,
   postBulkAddFrontlineCompany,
   postSingleAddFrontlineCompany,
@@ -11,6 +12,7 @@ import {
   IAddSingleFrontlineResponse,
   IFormSingleAddFrontliner,
   IFrontliner,
+  IFrontlinerDeleteResponse,
 } from '@/interface/frontliners.interface';
 
 export const useFrontlinersHook = () => {
@@ -84,9 +86,34 @@ export const useFrontlinersHook = () => {
       },
     });
 
+  const deleteFrontlinerMutation = ({
+    onSuccess,
+    onError,
+  }: {
+    onSuccess?:
+      | ((data: IFrontlinerDeleteResponse, variables: string, context: unknown) => unknown)
+      | undefined;
+    onError?: ((error: Error, variables: string, context: unknown) => unknown) | undefined;
+  }) =>
+    useMutation({
+      mutationKey: ['frontliner', 'add', 'single'],
+      mutationFn: deleteFrontliner,
+      onSuccess: (data, variables, context) => {
+        if (onSuccess) {
+          return onSuccess(data, variables, context);
+        }
+      },
+      onError: (err, variables, context) => {
+        if (onError) {
+          return onError(err as Error, variables, context);
+        }
+      },
+    });
+
   return {
     getFrontlinerCompanyQuery,
     postAddFrontlinerSingleCompanyMutation,
     postAddFrontlinerBulkCompanyMutation,
+    deleteFrontlinerMutation,
   };
 };

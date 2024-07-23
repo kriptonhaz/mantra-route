@@ -5,6 +5,7 @@ import {
   FrontlinerResponseType,
   IAddSingleFrontlineResponse,
   IFormSingleAddFrontliner,
+  IFrontlinerDeleteResponse,
 } from '@/interface/frontliners.interface';
 import API from './base';
 
@@ -38,6 +39,17 @@ export const postBulkAddFrontlineCompany = async (
     url: `${import.meta.env.VITE_BASE_API_VERSION}/frontline/bulk`,
     method: 'POST',
     data: payload,
+  });
+
+  return data;
+};
+
+export const deleteFrontliner = async (
+  frontlinerId: string,
+): Promise<IFrontlinerDeleteResponse> => {
+  const {data} = await API().request<IFrontlinerDeleteResponse>({
+    url: `${import.meta.env.VITE_BASE_API_VERSION}/frontline/${frontlinerId}`,
+    method: 'DELETE',
   });
 
   return data;

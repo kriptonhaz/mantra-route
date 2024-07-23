@@ -20,16 +20,55 @@ import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
 import Select from '@/components/Select';
 import {useCompanyHook} from '@/hooks/use-company.hook';
+import ModalConfirm, {IModalConfirmProps} from '@/components/Modal/ui/ModalConfirm';
+import {queryClient} from '@/service/QueryClient';
 
 const ListFrontliners: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
   const {data: dataListCompany} = getCompanyQuery();
   const [showModalAddFrontliner, setShowModalAddFrontliner] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState<string | undefined>(undefined);
-  const {getFrontlinerCompanyQuery} = useFrontlinersHook();
+  const {getFrontlinerCompanyQuery, deleteFrontlinerMutation} = useFrontlinersHook();
   const {data: dataFrontlinerCompany} = getFrontlinerCompanyQuery({
     companyId: selectedCompany || '',
   });
+  const [modalConfirm, setModalConfirm] = useState<IModalConfirmProps>({
+    show: false,
+    title: '',
+    description: '',
+    color: 'warning',
+    onClose: () => handleCloseConfirm(),
+    onConfirm: () => null,
+  });
+
+  const mutationDeleteFrontliner = deleteFrontlinerMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries(['frontliner', 'list', selectedCompany]);
+      handleCloseConfirm();
+    },
+    onError(err) {
+      console.log(err);
+    },
+  });
+
+  const handleCloseConfirm = () => {
+    setModalConfirm({
+      ...modalConfirm,
+      show: false,
+    });
+  };
+
+  const handleDelete = (frontlinerId: string) => {
+    setModalConfirm({
+      ...modalConfirm,
+      title: 'Confirm Deletion',
+      description: 'Do you really want to delete this data?',
+      show: true,
+      onConfirm: () => {
+        mutationDeleteFrontliner.mutate(frontlinerId);
+      },
+    });
+  };
 
   return (
     <Box>
@@ -105,7 +144,12 @@ const ListFrontliners: React.FC = () => {
                           <Button data-shape='icon' variant='text' color='primary'>
                             <NotePencil size={22} weight='bold' />
                           </Button>
-                          <Button data-shape='icon' variant='text' color='error'>
+                          <Button
+                            data-shape='icon'
+                            variant='text'
+                            color='error'
+                            onClick={() => handleDelete(row.id)}
+                          >
                             <Trash size={22} weight='bold' />
                           </Button>
                         </Stack>
@@ -121,6 +165,14 @@ const ListFrontliners: React.FC = () => {
         show={showModalAddFrontliner}
         companyId={selectedCompany || ''}
         onClose={() => setShowModalAddFrontliner(false)}
+      />
+      <ModalConfirm
+        show={modalConfirm.show}
+        title={modalConfirm.title}
+        description={modalConfirm.description}
+        color={modalConfirm.color}
+        onClose={modalConfirm.onClose}
+        onConfirm={modalConfirm.onConfirm}
       />
     </Box>
   );
