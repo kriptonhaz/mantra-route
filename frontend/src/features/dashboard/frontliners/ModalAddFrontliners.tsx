@@ -183,10 +183,6 @@ const ModalAddFrontliners: React.FC<IModalAddFrontlinersProps> = ({show, onClose
     }
   }, [show]);
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const mutationSingle = postAddFrontlinerSingleCompanyMutation({
     onSuccess: () => {
       queryClient.invalidateQueries(['frontliner', 'list', companyId]);

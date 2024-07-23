@@ -1,23 +1,37 @@
 import {MetaPaginationResponseType} from './base.interface';
 
+export enum ModeAddEnum {
+  'single',
+  'bulk',
+}
+export type TypeModeAdd = keyof typeof ModeAddEnum;
+
 export interface IOutlets {
-  company: string;
-  create_date: string;
+  outlet_id: string;
+  name: string;
+  must_visit_day: string | '';
   cycle: number;
-  delete_date: string;
-  frontliner_external_id: string;
-  generated_counter: number;
-  id: string;
   interval: number;
-  is_active: number;
+  frontliner_external_id: string;
+  off_day: string | '';
   latitude: number;
   longitude: number;
+  company: string;
+}
+
+export interface IFormAddOutlet extends IOutlets {
+  modeAdd: TypeModeAdd;
+  csvFile: File;
+}
+
+export interface IOutletsResponseData extends IOutlets {
+  create_date: string;
+  delete_date: string;
+  generated_counter: number;
+  id: string;
+  is_active: number;
   must_visit_day: string;
-  name: string;
   next_available_at: string;
-  off_day: string;
-  outlet_id: string;
-  update_date: string;
 }
 
 export interface IOutletsCsv {
@@ -40,7 +54,7 @@ export type IOutletRequestType = {
 
 export type IOutletResponseType = {
   code: number;
-  data: IOutlets[];
+  data: IOutletsResponseData[];
   message: string;
   meta: MetaPaginationResponseType;
   status: number;

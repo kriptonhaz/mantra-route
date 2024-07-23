@@ -19,6 +19,18 @@ export const getOutletsCompany = async (
   return data;
 };
 
+export const postSingleAddOutletCompany = async (
+  payload: IOutlets,
+): Promise<IOutletAddResponseType> => {
+  const {data} = await API().request<IOutletAddResponseType>({
+    url: `${import.meta.env.VITE_BASE_API_VERSION}/outlet`,
+    method: 'POST',
+    data: payload,
+  });
+
+  return data;
+};
+
 export const postBulkAddOutletsCompany = async (
   payload?: IOutlets[],
 ): Promise<IOutletAddResponseType> => {

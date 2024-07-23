@@ -3,6 +3,7 @@ import {
   deleteOutletsCompany,
   getOutletsCompany,
   postBulkAddOutletsCompany,
+  postSingleAddOutletCompany,
 } from '@/api/outlets.api';
 import {
   IOutlets,
@@ -20,6 +21,30 @@ export const useOutletsHook = () => {
     });
   };
 
+  const postSingleAddOutletsCompanyMutation = ({
+    onSuccess,
+    onError,
+  }: {
+    onSuccess?:
+      | ((data: IOutletAddResponseType, variables: IOutlets, context: unknown) => unknown)
+      | undefined;
+    onError?: ((error: Error, variables: IOutlets, context: unknown) => unknown) | undefined;
+  }) =>
+    useMutation({
+      mutationKey: ['outlets', 'create', 'single'],
+      mutationFn: postSingleAddOutletCompany,
+      onSuccess: (data, variables, context) => {
+        if (onSuccess) {
+          return onSuccess(data, variables, context);
+        }
+      },
+      onError: (err, variables, context) => {
+        if (onError) {
+          return onError(err as Error, variables, context);
+        }
+      },
+    });
+
   const postBulkAddOutletsCompanyMutation = ({
     onSuccess,
     onError,
@@ -30,7 +55,7 @@ export const useOutletsHook = () => {
     onError?: ((error: Error, variables: IOutlets[], context: unknown) => unknown) | undefined;
   }) =>
     useMutation({
-      mutationKey: ['outlets', 'create'],
+      mutationKey: ['outlets', 'create', 'bulk'],
       mutationFn: postBulkAddOutletsCompany,
       onSuccess: (data, variables, context) => {
         if (onSuccess) {
@@ -72,6 +97,7 @@ export const useOutletsHook = () => {
 
   return {
     getOutletsCompanyQuery,
+    postSingleAddOutletsCompanyMutation,
     postBulkAddOutletsCompanyMutation,
     deleteOutletsCompanyMutation,
   };

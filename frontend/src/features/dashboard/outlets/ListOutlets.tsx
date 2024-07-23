@@ -106,11 +106,11 @@ const ListOutlets: React.FC = () => {
           />
           <Button
             onClick={() => setShowModalAddOutlets(true)}
-            startIcon={<AddBusiness color='secondary' sx={{fill: 'inherit'}} />}
+            startIcon={<AddBusiness />}
             sx={{
               minHeight: '55px',
             }}
-            disabled={propsRequest.companyId === undefined}
+            disabled={propsRequest.companyId === ''}
           >
             Add Outlets
           </Button>
@@ -168,7 +168,11 @@ const ListOutlets: React.FC = () => {
           </TableContainer>
         </Stack>
       </Render>
-      <ModalAddOutlets show={showModalAddOutlets} onClose={() => setShowModalAddOutlets(false)} />
+      <ModalAddOutlets
+        show={showModalAddOutlets}
+        onClose={() => setShowModalAddOutlets(false)}
+        companyId={propsRequest.companyId}
+      />
       <ModalConfirm
         show={modalConfirm.show}
         title={modalConfirm.title}
