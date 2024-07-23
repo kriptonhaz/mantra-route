@@ -1,5 +1,9 @@
 import {useMutation, useQuery} from '@tanstack/react-query';
-import {deleteOutletsCompany, getOutletsCompany, postAddOutletsCompany} from '@/api/outlets.api';
+import {
+  deleteOutletsCompany,
+  getOutletsCompany,
+  postBulkAddOutletsCompany,
+} from '@/api/outlets.api';
 import {
   IOutlets,
   IOutletAddResponseType,
@@ -16,7 +20,7 @@ export const useOutletsHook = () => {
     });
   };
 
-  const postAddOutletsCompanyMutation = ({
+  const postBulkAddOutletsCompanyMutation = ({
     onSuccess,
     onError,
   }: {
@@ -27,7 +31,7 @@ export const useOutletsHook = () => {
   }) =>
     useMutation({
       mutationKey: ['outlets', 'create'],
-      mutationFn: postAddOutletsCompany,
+      mutationFn: postBulkAddOutletsCompany,
       onSuccess: (data, variables, context) => {
         if (onSuccess) {
           // @ts-ignore
@@ -68,7 +72,7 @@ export const useOutletsHook = () => {
 
   return {
     getOutletsCompanyQuery,
-    postAddOutletsCompanyMutation,
+    postBulkAddOutletsCompanyMutation,
     deleteOutletsCompanyMutation,
   };
 };

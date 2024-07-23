@@ -19,7 +19,7 @@ export const getOutletsCompany = async (
   return data;
 };
 
-export const postAddOutletsCompany = async (
+export const postBulkAddOutletsCompany = async (
   payload?: IOutlets[],
 ): Promise<IOutletAddResponseType> => {
   const {data} = await API().request<IOutletAddResponseType>({

@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
 
 const ModalAddOutlets: React.FC<IModalAddOutletsProps> = ({show, onClose}) => {
   const queryClient = useQueryClient();
-  const {postAddOutletsCompanyMutation} = useOutletsHook();
+  const {postBulkAddOutletsCompanyMutation} = useOutletsHook();
   const {
     handleSubmit,
     control,
@@ -40,7 +40,7 @@ const ModalAddOutlets: React.FC<IModalAddOutletsProps> = ({show, onClose}) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const mutation = postAddOutletsCompanyMutation({
+  const mutation = postBulkAddOutletsCompanyMutation({
     onSuccess: () => {
       queryClient.invalidateQueries(['outlets', 'list', import.meta.env.VITE_COMPANY_ID]);
       onClose();
