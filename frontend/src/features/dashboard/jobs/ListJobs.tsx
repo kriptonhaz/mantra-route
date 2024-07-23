@@ -5,12 +5,14 @@ import Select from '@/components/Select';
 import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
 import {useJobsHook} from '@/hooks/use-jobs.hooks';
+import ModalAddJobs from './ModalAddJobs';
 
 const ListJobs: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
   const {getJobsCompanyQuery} = useJobsHook();
-  const {data: dataListCompany} = getCompanyQuery();
   const [selectedCompany, setSelectedCompany] = useState<string>('');
+  const [showModalAddJobs, setShowModalAddJobs] = useState(false);
+  const {data: dataListCompany} = getCompanyQuery();
   const {data: dataJobsCompany} = getJobsCompanyQuery(selectedCompany);
   return (
     <Box>
@@ -40,6 +42,7 @@ const ListJobs: React.FC = () => {
             }
           />
           <Button
+            onClick={() => setShowModalAddJobs(true)}
             sx={{
               minHeight: '55px',
             }}
@@ -53,6 +56,11 @@ const ListJobs: React.FC = () => {
       <Render in={true}>
         <EmptyStateBox title='No jobs found' message='Let’s create Jobs!' />
       </Render>
+      <ModalAddJobs
+        show={showModalAddJobs}
+        onClose={() => setShowModalAddJobs(false)}
+        companyId={selectedCompany}
+      />
     </Box>
   );
 };

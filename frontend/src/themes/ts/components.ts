@@ -391,26 +391,26 @@ export const components: Components = {
       },
     },
   },
-  MuiTextField: {
-    defaultProps: {fullWidth: true, variant: 'filled'},
-    styleOverrides: {
-      root: {
-        '& .MuiFormLabel-root': {
-          color: neutral[500],
-          fontSize: '14px',
-          fontWeight: 300,
-        },
-        '& .MuiInputBase-root.MuiFilledInput-root': {
-          borderRadius: 4,
-          background: neutral[50],
-          borderBottom: 'none',
-          '&::before': {
-            borderBottom: `1px solid ${neutral[200]}`,
-          },
-        },
-      },
-    },
-  },
+  // MuiTextField: {
+  //   defaultProps: {fullWidth: true, variant: 'filled'},
+  //   styleOverrides: {
+  //     root: {
+  //       '& .MuiFormLabel-root': {
+  //         color: neutral[500],
+  //         fontSize: '14px',
+  //         fontWeight: 300,
+  //       },
+  //       '& .MuiInputBase-root.MuiFilledInput-root': {
+  //         borderRadius: 4,
+  //         background: neutral[50],
+  //         borderBottom: 'none',
+  //         '&::before': {
+  //           borderBottom: `1px solid ${neutral[200]}`,
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
   MuiPaginationItem: {
     styleOverrides: {
       root: {

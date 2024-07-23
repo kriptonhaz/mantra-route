@@ -12,3 +12,10 @@ export interface GetJobRequestType {
   };
   status: number;
 }
+
+export interface PostCreateJobsType {
+  company: string;
+  generated_month: string;
+  resynchronize_distance: boolean;
+  recounting_api: boolean;
+}
