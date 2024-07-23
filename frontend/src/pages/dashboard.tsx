@@ -50,8 +50,8 @@ export const DashboardPage = (props: DashboardPageProps) => {
       icon: <Store color='secondary' sx={{fill: 'inherit'}} />,
     },
     {
-      label: 'Schedule',
-      to: '/dashboard/schedule',
+      label: 'Jobs',
+      to: '/dashboard/jobs',
       icon: <CalendarMonthOutlined sx={{fill: 'inherit'}} />,
     },
   ]);

@@ -8,12 +8,13 @@ import {ModalError} from './components/Modal';
 import {DashboardPage} from './pages/dashboard';
 import Error404 from './pages/error/404';
 import {Error500} from './pages/error/500';
-import Outlets from './routes/dashboard/outlets/page';
-import Home from './routes/dashboard/home/page';
-import Frontliners from './routes/dashboard/frontliners/page';
-import Company from './routes/dashboard/company/page';
-import {Forgot, ResetPassword} from './routes/forget/page';
 import Login from './routes/login/page';
+import {Forgot, ResetPassword} from './routes/forget/page';
+import Home from './routes/dashboard/home/page';
+import Company from './routes/dashboard/company/page';
+import Frontliners from './routes/dashboard/frontliners/page';
+import Outlets from './routes/dashboard/outlets/page';
+import Jobs from './routes/dashboard/jobs/page';
 import {queryClient} from './service/QueryClient';
 import useErrorStore from './store/use-error.store';
 import useTokenStore from './store/use-token.store';
@@ -50,6 +51,7 @@ function App() {
                 <Route path='company' element={<Company />} />
                 <Route path='frontliners' element={<Frontliners />} />
                 <Route path='outlet' element={<Outlets />} />
+                <Route path='jobs' element={<Jobs />} />
               </Route>
             </Route>
             <Route path='/loading' element={<LoadingPage />} />
