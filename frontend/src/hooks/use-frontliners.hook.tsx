@@ -11,7 +11,6 @@ import {
   FrontlinerAddResponseType,
   IAddSingleFrontlineResponse,
   IFormSingleAddFrontliner,
-  IFrontliner,
   IFrontlinerDeleteResponse,
 } from '@/interface/frontliners.interface';
 
