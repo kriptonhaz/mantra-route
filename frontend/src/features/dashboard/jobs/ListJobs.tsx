@@ -202,6 +202,7 @@ const ListJobs: React.FC = () => {
             </Table>
           </TableContainer>
         </Stack>
+        <Divider sx={{my: 4}} />
         <Pagination
           page={propsRequest.page ?? 1}
           count={dataJobsCompany?.meta.TotalPage ?? 1}
