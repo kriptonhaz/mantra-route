@@ -1,6 +1,24 @@
-export interface GetJobRequestType {
+export interface GetJobRequestParamsType {
+  companyId: string;
+  page: number;
+  per_page: number;
+}
+
+export interface IJobItem {
+  reate_date: string;
+  delete_date: string;
+  generated_month: string;
+  id: string;
+  is_process: number;
+  output_file: string;
+  process_date: string;
+  recounting_api: boolean;
+  resynchronize_distance: boolean;
+  update_date: string;
+}
+export interface GetJobResponseType {
   code: number;
-  data: [];
+  data: IJobItem[];
   message: string;
   meta: {
     Page: number;

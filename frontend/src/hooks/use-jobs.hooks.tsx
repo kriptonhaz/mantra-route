@@ -1,13 +1,13 @@
 import {getJobsCompany, postCreateJobsCompany} from '@/api/jobs.api';
-import {PostCreateJobsType} from '@/interface/jobs.interface';
+import {GetJobRequestParamsType, PostCreateJobsType} from '@/interface/jobs.interface';
 import {useMutation, useQuery} from '@tanstack/react-query';
 
 export const useJobsHook = () => {
-  const getJobsCompanyQuery = (companyId: string) => {
+  const getJobsCompanyQuery = (params: GetJobRequestParamsType) => {
     return useQuery({
-      queryKey: ['job', 'list', companyId],
-      queryFn: () => getJobsCompany(companyId),
-      enabled: !!companyId,
+      queryKey: ['job', 'list', params],
+      queryFn: () => getJobsCompany(params),
+      enabled: !!params.companyId,
     });
   };
 

@@ -10,10 +10,14 @@ import ModalAddJobs from './ModalAddJobs';
 const ListJobs: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
   const {getJobsCompanyQuery} = useJobsHook();
-  const [selectedCompany, setSelectedCompany] = useState<string>('');
+  const [propsRequest, setPropsRequest] = useState({
+    page: 1,
+    per_page: 10,
+    companyId: '',
+  });
   const [showModalAddJobs, setShowModalAddJobs] = useState(false);
   const {data: dataListCompany} = getCompanyQuery();
-  const {data: dataJobsCompany} = getJobsCompanyQuery(selectedCompany);
+  const {data: dataJobsCompany} = getJobsCompanyQuery(propsRequest);
   return (
     <Box>
       <Stack
@@ -26,9 +30,9 @@ const ListJobs: React.FC = () => {
             label='Company'
             sx={{width: '250px'}}
             onChange={(event) => {
-              setSelectedCompany(event.target.value as string);
+              setPropsRequest((prev) => ({...prev, companyId: event.target.value as string}));
             }}
-            value={selectedCompany}
+            value={propsRequest.companyId}
             options={
               dataListCompany !== undefined
                 ? dataListCompany.data.map((item, index) => {
@@ -46,7 +50,7 @@ const ListJobs: React.FC = () => {
             sx={{
               minHeight: '55px',
             }}
-            disabled={selectedCompany === ''}
+            disabled={propsRequest.companyId === ''}
           >
             Create Jobs
           </Button>
@@ -59,7 +63,7 @@ const ListJobs: React.FC = () => {
       <ModalAddJobs
         show={showModalAddJobs}
         onClose={() => setShowModalAddJobs(false)}
-        companyId={selectedCompany}
+        companyId={propsRequest.companyId}
       />
     </Box>
   );
