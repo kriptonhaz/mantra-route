@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Box,
   Button,
@@ -22,6 +22,8 @@ import ModalAddJobs from './ModalAddJobs';
 import {NotePencil, Download, PlayCircle, PauseCircle} from 'phosphor-react';
 import dayjs from 'dayjs';
 import {queryClient} from '@/service/QueryClient';
+import Pagination from '@/components/Pagination';
+import {getJobsCompany} from '@/api/jobs.api';
 
 const ListJobs: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
@@ -54,7 +56,7 @@ const ListJobs: React.FC = () => {
 
   const mutationExecute = putExecuteJobsCompanyMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['job', 'list', propsRequest]);
+      queryClient.invalidateQueries(['job', 'list', propsRequest.companyId]);
     },
     onError(err) {
       console.log(err);
@@ -63,12 +65,42 @@ const ListJobs: React.FC = () => {
 
   const mutationDraft = putDraftJobsCompanyMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['job', 'list', propsRequest]);
+      queryClient.invalidateQueries(['job', 'list', propsRequest.companyId]);
     },
     onError(err) {
       console.log(err);
     },
   });
+
+  useEffect(() => {
+    if (
+      (dataJobsCompany?.meta.Page || 1) <= (propsRequest.page || 1) &&
+      propsRequest.companyId !== ''
+    ) {
+      queryClient.prefetchQuery({
+        queryKey: ['job', 'list', propsRequest.companyId],
+        queryFn: () => getJobsCompany(propsRequest),
+      });
+    }
+  }, [dataJobsCompany, queryClient, propsRequest]);
+
+  const onNextPage = () => {
+    setPropsRequest({
+      ...propsRequest,
+      page: (propsRequest.page ?? 1) + 1,
+    });
+  };
+
+  const onPrevPage = () => {
+    setPropsRequest({
+      ...propsRequest,
+      page: (propsRequest.page ?? 1) - 1,
+    });
+  };
+
+  const onChangePage = (val: number) => {
+    setPropsRequest({...propsRequest, page: val});
+  };
 
   return (
     <Box>
@@ -170,6 +202,13 @@ const ListJobs: React.FC = () => {
             </Table>
           </TableContainer>
         </Stack>
+        <Pagination
+          page={propsRequest.page ?? 1}
+          count={dataJobsCompany?.meta.TotalPage ?? 1}
+          onNext={onNextPage}
+          onPrev={onPrevPage}
+          onChange={onChangePage}
+        />
       </Render>
       <ModalAddJobs
         show={showModalAddJobs}

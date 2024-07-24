@@ -10,7 +10,7 @@ import {useMutation, useQuery} from '@tanstack/react-query';
 export const useJobsHook = () => {
   const getJobsCompanyQuery = (params: GetJobRequestParamsType) => {
     return useQuery({
-      queryKey: ['job', 'list', params],
+      queryKey: ['job', 'list', params.companyId],
       queryFn: () => getJobsCompany(params),
       enabled: !!params.companyId,
     });
