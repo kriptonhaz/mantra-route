@@ -7,7 +7,7 @@ import {
 } from '@/api/frontliners.api';
 import {
   AddBulkFrontlinePayloadType,
-  FrontlineRequestType,
+  IFrontlineRequestType,
   FrontlinerAddResponseType,
   IAddSingleFrontlineResponse,
   IFormSingleAddFrontliner,
@@ -15,7 +15,7 @@ import {
 } from '@/interface/frontliners.interface';
 
 export const useFrontlinersHook = () => {
-  const getFrontlinerCompanyQuery = (params: FrontlineRequestType) => {
+  const getFrontlinerCompanyQuery = (params: IFrontlineRequestType) => {
     return useQuery({
       queryKey: ['frontliner', 'list', params.companyId],
       queryFn: () => getFrontlinerCompany(params),

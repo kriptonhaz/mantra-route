@@ -1,6 +1,6 @@
 import {
   AddBulkFrontlinePayloadType,
-  FrontlineRequestType,
+  IFrontlineRequestType,
   FrontlinerAddResponseType,
   FrontlinerResponseType,
   IAddSingleFrontlineResponse,
@@ -10,11 +10,12 @@ import {
 import API from './base';
 
 export const getFrontlinerCompany = async (
-  params?: FrontlineRequestType,
+  params?: IFrontlineRequestType,
 ): Promise<FrontlinerResponseType> => {
   const {data} = await API().request<FrontlinerResponseType>({
     url: `${import.meta.env.VITE_BASE_API_VERSION}/frontline/company/${params?.companyId}`,
     method: 'GET',
+    params: params,
   });
 
   return data;

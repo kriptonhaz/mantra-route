@@ -13,7 +13,7 @@ import {
   TableRow,
 } from '@mui/material';
 import {NotePencil, Trash, Eye} from 'phosphor-react';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ModalAddFrontliners from './ModalAddFrontliners';
 import {useFrontlinersHook} from '@/hooks/use-frontliners.hook';
 import Render from '@/components/Render';
@@ -22,16 +22,21 @@ import Select from '@/components/Select';
 import {useCompanyHook} from '@/hooks/use-company.hook';
 import ModalConfirm, {IModalConfirmProps} from '@/components/Modal/ui/ModalConfirm';
 import {queryClient} from '@/service/QueryClient';
+import Pagination from '@/components/Pagination';
+import {IFrontlineRequestType} from '@/interface/frontliners.interface';
+import {getFrontlinerCompany} from '@/api/frontliners.api';
 
 const ListFrontliners: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
   const {data: dataListCompany} = getCompanyQuery();
   const [showModalAddFrontliner, setShowModalAddFrontliner] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState<string | undefined>(undefined);
-  const {getFrontlinerCompanyQuery, deleteFrontlinerMutation} = useFrontlinersHook();
-  const {data: dataFrontlinerCompany} = getFrontlinerCompanyQuery({
-    companyId: selectedCompany || '',
+  const [propsRequest, setPropsRequest] = React.useState<IFrontlineRequestType>({
+    page: 1,
+    per_page: 1,
+    companyId: '',
   });
+  const {getFrontlinerCompanyQuery, deleteFrontlinerMutation} = useFrontlinersHook();
+  const {data: dataFrontlinerCompany} = getFrontlinerCompanyQuery(propsRequest);
   const [modalConfirm, setModalConfirm] = useState<IModalConfirmProps>({
     show: false,
     title: '',
@@ -41,9 +46,21 @@ const ListFrontliners: React.FC = () => {
     onConfirm: () => null,
   });
 
+  useEffect(() => {
+    if (
+      (dataFrontlinerCompany?.meta.Page || 1) <= (propsRequest.page || 1) &&
+      propsRequest.companyId !== ''
+    ) {
+      queryClient.prefetchQuery({
+        queryKey: ['frontliner', 'list', propsRequest.companyId],
+        queryFn: () => getFrontlinerCompany(propsRequest),
+      });
+    }
+  }, [dataFrontlinerCompany, queryClient, propsRequest]);
+
   const mutationDeleteFrontliner = deleteFrontlinerMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(['frontliner', 'list', selectedCompany]);
+      queryClient.invalidateQueries(['frontliner', 'list', propsRequest.companyId]);
       handleCloseConfirm();
     },
     onError(err) {
@@ -70,6 +87,24 @@ const ListFrontliners: React.FC = () => {
     });
   };
 
+  const onNextPage = () => {
+    setPropsRequest({
+      ...propsRequest,
+      page: (propsRequest.page ?? 1) + 1,
+    });
+  };
+
+  const onPrevPage = () => {
+    setPropsRequest({
+      ...propsRequest,
+      page: (propsRequest.page ?? 1) - 1,
+    });
+  };
+
+  const onChangePage = (val: number) => {
+    setPropsRequest({...propsRequest, page: val});
+  };
+
   return (
     <Box>
       <Stack
@@ -82,9 +117,9 @@ const ListFrontliners: React.FC = () => {
             label='Company'
             sx={{width: '250px'}}
             onChange={(event) => {
-              setSelectedCompany(event.target.value as string);
+              setPropsRequest({...propsRequest, companyId: event.target.value as string});
             }}
-            value={selectedCompany}
+            value={propsRequest.companyId}
             options={
               dataListCompany !== undefined
                 ? dataListCompany.data.map((item, index) => {
@@ -103,7 +138,7 @@ const ListFrontliners: React.FC = () => {
             sx={{
               minHeight: '55px',
             }}
-            disabled={selectedCompany === undefined}
+            disabled={propsRequest.companyId === ''}
           >
             Add Frontliners
           </Button>
@@ -160,10 +195,18 @@ const ListFrontliners: React.FC = () => {
             </Table>
           </TableContainer>
         </Stack>
+        <Divider sx={{my: 4}} />
+        <Pagination
+          page={propsRequest.page ?? 1}
+          count={dataFrontlinerCompany?.meta.TotalPage ?? 1}
+          onNext={onNextPage}
+          onPrev={onPrevPage}
+          onChange={onChangePage}
+        />
       </Render>
       <ModalAddFrontliners
         show={showModalAddFrontliner}
-        companyId={selectedCompany || ''}
+        companyId={propsRequest.companyId || ''}
         onClose={() => setShowModalAddFrontliner(false)}
       />
       <ModalConfirm

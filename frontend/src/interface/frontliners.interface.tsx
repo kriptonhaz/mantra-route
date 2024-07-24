@@ -53,7 +53,7 @@ export interface IFrontlinerCsv {
   'Max Duration Visit': string;
 }
 
-export type FrontlineRequestType = {
+export type IFrontlineRequestType = {
   companyId: string;
   page?: number;
   per_page?: number;
