@@ -32,7 +32,7 @@ const ListFrontliners: React.FC = () => {
   const [showModalAddFrontliner, setShowModalAddFrontliner] = useState(false);
   const [propsRequest, setPropsRequest] = React.useState<IFrontlineRequestType>({
     page: 1,
-    per_page: 1,
+    per_page: 10,
     companyId: '',
   });
   const {getFrontlinerCompanyQuery, deleteFrontlinerMutation} = useFrontlinersHook();
