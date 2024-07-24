@@ -176,9 +176,6 @@ const ListFrontliners: React.FC = () => {
                           <Button data-shape='icon' variant='text' color='info'>
                             <Eye size={22} weight='bold' />
                           </Button>
-                          <Button data-shape='icon' variant='text' color='primary'>
-                            <NotePencil size={22} weight='bold' />
-                          </Button>
                           <Button
                             data-shape='icon'
                             variant='text'
