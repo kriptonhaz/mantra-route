@@ -5,7 +5,8 @@ export interface GetJobRequestParamsType {
 }
 
 export interface IJobItem {
-  reate_date: string;
+  company: string;
+  create_date: string;
   delete_date: string;
   generated_month: string;
   id: string;

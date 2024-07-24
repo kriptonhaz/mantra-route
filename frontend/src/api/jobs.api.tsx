@@ -9,7 +9,7 @@ export const getJobsCompany = async (
   params: GetJobRequestParamsType,
 ): Promise<GetJobResponseType> => {
   const {data} = await API().request<GetJobResponseType>({
-    url: `${import.meta.env.VITE_BASE_API_VERSION}/job/${params.companyId}`,
+    url: `v1/job/${params.companyId}`,
     method: 'GET',
     params: params,
   });
@@ -19,9 +19,27 @@ export const getJobsCompany = async (
 
 export const postCreateJobsCompany = async (payload: PostCreateJobsType): Promise<void> => {
   const {data} = await API().request<void>({
-    url: `${import.meta.env.VITE_BASE_API_VERSION}/job`,
+    url: `v1/job`,
     method: 'POST',
     data: payload,
+  });
+
+  return data;
+};
+
+export const putExecuteJobsCompany = async (jobsId: string): Promise<void> => {
+  const {data} = await API().request<void>({
+    url: `v1/job/execute/${jobsId}`,
+    method: 'PUT',
+  });
+
+  return data;
+};
+
+export const putDraftJobsCompany = async (jobsId: string): Promise<void> => {
+  const {data} = await API().request<void>({
+    url: `v1/job/draft/${jobsId}`,
+    method: 'PUT',
   });
 
   return data;

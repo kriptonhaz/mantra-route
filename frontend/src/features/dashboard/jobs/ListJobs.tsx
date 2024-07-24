@@ -1,15 +1,32 @@
 import {useState} from 'react';
-import {Box, Button, Divider, Stack} from '@mui/material';
+import {
+  Box,
+  Button,
+  Chip,
+  Divider,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 import {useCompanyHook} from '@/hooks/use-company.hook';
 import Select from '@/components/Select';
 import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
 import {useJobsHook} from '@/hooks/use-jobs.hooks';
 import ModalAddJobs from './ModalAddJobs';
+import {NotePencil, Download, PlayCircle, PauseCircle} from 'phosphor-react';
+import dayjs from 'dayjs';
+import {queryClient} from '@/service/QueryClient';
 
 const ListJobs: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
-  const {getJobsCompanyQuery} = useJobsHook();
+  const {getJobsCompanyQuery, putExecuteJobsCompanyMutation, putDraftJobsCompanyMutation} =
+    useJobsHook();
   const [propsRequest, setPropsRequest] = useState({
     page: 1,
     per_page: 10,
@@ -18,6 +35,41 @@ const ListJobs: React.FC = () => {
   const [showModalAddJobs, setShowModalAddJobs] = useState(false);
   const {data: dataListCompany} = getCompanyQuery();
   const {data: dataJobsCompany} = getJobsCompanyQuery(propsRequest);
+  const renderStatus = (status: number) => {
+    switch (status) {
+      case 1:
+        return <Chip label='Created' color='secondary' />;
+      case 2:
+        return <Chip label='Scheduled' color='info' />;
+      case 3:
+        return <Chip label='On Process' color='primary' />;
+      case 4:
+        return <Chip label='Failed' color='error' />;
+      case 9:
+        return <Chip label='Success' color='success' />;
+      default:
+        return <Chip label='Created' color='secondary' />;
+    }
+  };
+
+  const mutationExecute = putExecuteJobsCompanyMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries(['job', 'list', propsRequest]);
+    },
+    onError(err) {
+      console.log(err);
+    },
+  });
+
+  const mutationDraft = putDraftJobsCompanyMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries(['job', 'list', propsRequest]);
+    },
+    onError(err) {
+      console.log(err);
+    },
+  });
+
   return (
     <Box>
       <Stack
@@ -57,8 +109,67 @@ const ListJobs: React.FC = () => {
         </Stack>
       </Stack>
       <Divider sx={{my: 6}} />
-      <Render in={true}>
+      <Render in={dataJobsCompany?.data.length === 0}>
         <EmptyStateBox title='No jobs found' message='Let’s create Jobs!' />
+      </Render>
+      <Render in={!!dataJobsCompany && dataJobsCompany?.data.length > 0}>
+        <Stack direction='column' spacing={4}>
+          <TableContainer component={Paper} sx={{marginTop: '20px'}}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Generated Month</TableCell>
+                  <TableCell>Recounting API</TableCell>
+                  <TableCell>Resynchronize Distance</TableCell>
+                  <TableCell>Create Date</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {dataJobsCompany &&
+                  dataJobsCompany?.data.map((row, i) => (
+                    <TableRow key={i}>
+                      <TableCell>{row.generated_month}</TableCell>
+                      <TableCell>{row.recounting_api ? 'Yes' : 'No'}</TableCell>
+                      <TableCell>{row.resynchronize_distance ? 'Yes' : 'No'}</TableCell>
+                      <TableCell>{dayjs(row.create_date).format('DD MMM YYYY')}</TableCell>
+                      <TableCell>{renderStatus(row.is_process)}</TableCell>
+                      <TableCell>
+                        <Stack direction='row' spacing={1}>
+                          <Button data-shape='icon' variant='text' color='info'>
+                            <NotePencil size={22} weight='bold' />
+                          </Button>
+                          <Button data-shape='icon' variant='text' color='primary'>
+                            <Download size={22} weight='bold' />
+                          </Button>
+                          {row.is_process === 1 ? (
+                            <Button
+                              data-shape='icon'
+                              variant='text'
+                              color='success'
+                              onClick={() => mutationExecute.mutate(row.id)}
+                            >
+                              <PlayCircle size={22} weight='bold' />
+                            </Button>
+                          ) : row.is_process === 2 ? (
+                            <Button
+                              data-shape='icon'
+                              variant='text'
+                              color='inherit'
+                              onClick={() => mutationDraft.mutate(row.id)}
+                            >
+                              <PauseCircle size={22} weight='bold' />
+                            </Button>
+                          ) : null}
+                        </Stack>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Stack>
       </Render>
       <ModalAddJobs
         show={showModalAddJobs}
