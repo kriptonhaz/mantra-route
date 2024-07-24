@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import {AddBusiness} from '@mui/icons-material';
 import {NotePencil, Trash, Eye} from 'phosphor-react';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ModalAddOutlets from './ModalAddOutlets';
 import Render from '@/components/Render';
 import {EmptyStateBox} from '@/components/EmptyState/EmptyState';
@@ -23,6 +23,8 @@ import {useCompanyHook} from '@/hooks/use-company.hook';
 import {IOutletRequestType} from '@/interface/outlets.interface';
 import ModalConfirm, {IModalConfirmProps} from '@/components/Modal/ui/ModalConfirm';
 import {queryClient} from '@/service/QueryClient';
+import Pagination from '@/components/Pagination';
+import {getOutletsCompany} from '@/api/outlets.api';
 
 const ListOutlets: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
@@ -42,11 +44,7 @@ const ListOutlets: React.FC = () => {
     onClose: () => handleCloseConfirm(),
     onConfirm: () => null,
   });
-  const {
-    data: dataOutletsCompany,
-    isPreviousData,
-    isLoading: isLoadingFrontlinerCompany,
-  } = getOutletsCompanyQuery(propsRequest);
+  const {data: dataOutletsCompany} = getOutletsCompanyQuery(propsRequest);
 
   const mutationDeleteOutlet = deleteOutletsCompanyMutation({
     onSuccess: () => {
@@ -75,6 +73,36 @@ const ListOutlets: React.FC = () => {
         mutationDeleteOutlet.mutate(outletId);
       },
     });
+  };
+
+  useEffect(() => {
+    if (
+      (dataOutletsCompany?.meta.Page || 1) <= (propsRequest.page || 1) &&
+      propsRequest.companyId !== ''
+    ) {
+      queryClient.prefetchQuery({
+        queryKey: ['outlets', 'list', propsRequest.companyId],
+        queryFn: () => getOutletsCompany(propsRequest),
+      });
+    }
+  }, [dataOutletsCompany, queryClient, propsRequest]);
+
+  const onNextPage = () => {
+    setPropsRequest({
+      ...propsRequest,
+      page: (propsRequest.page ?? 1) + 1,
+    });
+  };
+
+  const onPrevPage = () => {
+    setPropsRequest({
+      ...propsRequest,
+      page: (propsRequest.page ?? 1) - 1,
+    });
+  };
+
+  const onChangePage = (val: number) => {
+    setPropsRequest({...propsRequest, page: val});
   };
 
   return (
@@ -167,6 +195,14 @@ const ListOutlets: React.FC = () => {
             </Table>
           </TableContainer>
         </Stack>
+        <Divider sx={{my: 4}} />
+        <Pagination
+          page={propsRequest.page ?? 1}
+          count={dataOutletsCompany?.meta.TotalPage ?? 1}
+          onNext={onNextPage}
+          onPrev={onPrevPage}
+          onChange={onChangePage}
+        />
       </Render>
       <ModalAddOutlets
         show={showModalAddOutlets}
