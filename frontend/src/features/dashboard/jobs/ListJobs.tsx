@@ -27,16 +27,22 @@ import {getJobsCompany} from '@/api/jobs.api';
 
 const ListJobs: React.FC = () => {
   const {getCompanyQuery} = useCompanyHook();
-  const {getJobsCompanyQuery, putExecuteJobsCompanyMutation, putDraftJobsCompanyMutation} =
-    useJobsHook();
+  const {
+    getJobsCompanyQuery,
+    getJobsDownloadFileQuery,
+    putExecuteJobsCompanyMutation,
+    putDraftJobsCompanyMutation,
+  } = useJobsHook();
   const [propsRequest, setPropsRequest] = useState({
     page: 1,
     per_page: 10,
     companyId: '',
   });
+  const [propsDownload, setPropsDownload] = useState({filePath: '', enabled: false});
   const [showModalAddJobs, setShowModalAddJobs] = useState(false);
   const {data: dataListCompany} = getCompanyQuery();
   const {data: dataJobsCompany} = getJobsCompanyQuery(propsRequest);
+  const {data: dataJobsDownload} = getJobsDownloadFileQuery(propsDownload);
   const renderStatus = (status: number) => {
     switch (status) {
       case 1:
@@ -100,6 +106,36 @@ const ListJobs: React.FC = () => {
 
   const onChangePage = (val: number) => {
     setPropsRequest({...propsRequest, page: val});
+  };
+
+  useEffect(() => {
+    if (dataJobsDownload && propsDownload.enabled && propsDownload.filePath !== '') {
+      const url = window.URL.createObjectURL(
+        new Blob([dataJobsDownload], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        }),
+      );
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute(
+        'download',
+        propsDownload.filePath.substring(propsDownload.filePath.lastIndexOf('/') + 1),
+      );
+      document.body.appendChild(link);
+      link.click();
+      setPropsDownload({
+        filePath: '',
+        enabled: false,
+      });
+    }
+  }, [dataJobsDownload, propsDownload]);
+
+  const handleDownload = (filePath: string) => {
+    setPropsDownload({
+      ...propsDownload,
+      filePath: filePath,
+      enabled: true,
+    });
   };
 
   return (
@@ -172,9 +208,16 @@ const ListJobs: React.FC = () => {
                           <Button data-shape='icon' variant='text' color='info'>
                             <NotePencil size={22} weight='bold' />
                           </Button>
-                          <Button data-shape='icon' variant='text' color='primary'>
-                            <Download size={22} weight='bold' />
-                          </Button>
+                          {row.is_process === 9 && (
+                            <Button
+                              data-shape='icon'
+                              variant='text'
+                              color='primary'
+                              onClick={() => handleDownload(row.output_file)}
+                            >
+                              <Download size={22} weight='bold' />
+                            </Button>
+                          )}
                           {row.is_process === 1 ? (
                             <Button
                               data-shape='icon'

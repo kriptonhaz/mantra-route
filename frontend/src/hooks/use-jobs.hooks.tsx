@@ -1,5 +1,6 @@
 import {
   getJobsCompany,
+  getJobsDownloadFile,
   postCreateJobsCompany,
   putDraftJobsCompany,
   putExecuteJobsCompany,
@@ -13,6 +14,15 @@ export const useJobsHook = () => {
       queryKey: ['job', 'list', params.companyId],
       queryFn: () => getJobsCompany(params),
       enabled: !!params.companyId,
+    });
+  };
+
+  const getJobsDownloadFileQuery = (props: {filePath: string; enabled?: boolean}) => {
+    const {filePath, enabled = true} = props;
+    return useQuery({
+      queryKey: ['job', 'download', filePath],
+      queryFn: () => getJobsDownloadFile(filePath),
+      enabled: enabled,
     });
   };
 
@@ -88,6 +98,7 @@ export const useJobsHook = () => {
 
   return {
     getJobsCompanyQuery,
+    getJobsDownloadFileQuery,
     postCreateJobsCompanyMutation,
     putExecuteJobsCompanyMutation,
     putDraftJobsCompanyMutation,

@@ -44,3 +44,13 @@ export const putDraftJobsCompany = async (jobsId: string): Promise<void> => {
 
   return data;
 };
+
+export const getJobsDownloadFile = async (filePath: string): Promise<void> => {
+  const {data} = await API().request<void>({
+    url: `${filePath}`,
+    method: 'GET',
+    responseType: 'arraybuffer',
+  });
+
+  return data;
+};
